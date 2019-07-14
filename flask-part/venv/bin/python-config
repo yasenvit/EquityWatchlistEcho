@@ -1,4 +1,4 @@
-#!/mnt/c/Users/yavit/OneDrive/Desktop/EquityEcho/proreplica/proreplica_flask/venv/bin/python
+#!/mnt/c/Users/yavit/OneDrive/Desktop/EquityEcho/WatchlistFundamentals/flask-part/venv/bin/python
 
 import sys
 import getopt

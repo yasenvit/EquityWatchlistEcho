@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/mnt/c/Users/yavit/OneDrive/Desktop/EquityEcho/proreplica/proreplica_flask/venv"
+$VIRTUAL_ENV = r"/mnt/c/Users/yavit/OneDrive/Desktop/EquityEcho/WatchlistFundamentals/flask-part/venv"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]
