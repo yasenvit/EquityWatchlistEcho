@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 0.9rem
+}
+.entire {
+width: 100vw;
+height: 100vh;
+box-sizing: border-box;
+}
+
+.login {
+  margin-left: 20px;
+}
+.header-container-out {
+  height: 7vh;
+  color:black;
+  /*background-color: #5995DA;*/
+  background-color: rgb(167, 151, 132);
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-container-signed {
+  height: 7vh;
+  color: black;
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(189, 181, 172);
+}
+.header-item {
+  display: flex;
+  flex:1;
+  justify-content: space-around;
+  align-items: center; /* could be stretch*/
+  width: 100%;
+  padding: 0.2rem
+}
+
+.header-center {
+flex:2.5
+}
+
+.logo {
+margin: 1rem;
+margin-left: auto
+}
+.grid-container {
+height: 85vh;
+width: 100vw;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+}
+
+.loginBox,
+.signupBox {
+display: flex;
+flex-direction: column;
+height: 250px;
+width: 300px;
+justify-content: center;
+align-items: center;
+padding: 1rem;
+background-color: #c4c2c2;
+opacity: 0.8
+}
+.unsigned-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
+  height: 85vh;
+  width:100%;
+  padding: 0.2rem;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./city.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.footer {
+  background-color: rgb(167, 151, 132);
+  height: 5vh;
+  width: 100%
+}

@@ -1,0 +1,135 @@
+
+
+base url endpoint: https://cloud.iexapis.com/v1/
+
+https://cloud.iexapis.com/stable/stock/aapl/quote?token=
+curl -k 'https://cloud.iexapis.com/stable/stock/aapl/quote?token=YOUR_TOKEN_HERE'
+
+/stock/{symbol}/company
+/stock/aapl/price
+
+
+
+To start Flask:
+---to install:
+    virtualenv venv
+
+that will create a folder called venv that has a complete setup
+then in the terminal where you are going to test your code or run the server, run the command source venv/bin/activate
+that will change your command prompt to include "venv" so you know you are working in the environment
+the environment will be a totally fresh python installation so after activating it, you will need to 
+need to install:
+
+---Flask can save previous .pyc files. So for clean it:
+    sudo find . -name "*.pyc" -exec rm -f {} \;
+
+---enter your virtualenv:
+    source venv/bin/activate
+
+    sudo apt-get update
+    sudo apt install python3-pip
+    pip install flask requests flask-cors
+
+---to save requirements:
+    pip freeze --local > requirements.txt
+---to check requirements:
+    cat requirements.txt
+---to delete (name_env):
+    rm -rf name_env/
+---to install requirements on other project:
+    pip install -r requirements.txt  
+
+---enter your virtualenv:
+    source venv/bin/activate
+    export FLASK_DEBUG=1
+    flask run
+
+Mysql:
+---to start Mysql:
+    sudo service mysql start
+
+---phpAdmin restarting:
+    sudo service apache2 restart
+---go to:    
+    http://localhost/phpmyadmin/index.php
+
+---To start React:
+    npm install -g npx
+---installation: 
+    npx create-react-app name_of_app
+---To run:
+    npm start
+    npm install react-router react-router-dom;
+
+"""libraries""""
+sudo apt-get install python3-pymysql
+npm install round-to (js:
+const roundTo = require('round-to');
+roundTo(1.234, 2);//=> 1.23
+roundTo.up(1.234, 2);//=> 1.24
+roundTo.down(1.234, 2);//=> 1.23
+roundTo(1234.56, -2);//=> 1200)
+"""""
+npm install --save styled-components (js: import styled from 'styled-components')
+"""""
+npm install apexcharts react-apexcharts;
+""""""
+npm install --save bootstrap@3.3.7
+(index.js) import 'bootstrap/dist/css/bootstrap.css';
+""""""""""""""""
+
+Curl Command:
+curl 127.0.0.1:5000/api/stock/aapl/price
+curl 127.0.0.1:5000/api/stock/aapl/company
+curl 127.0.0.1:5000/api/stock/aapl/quote
+curl 127.0.0.1:5000/api/list/tsla,aapl/quote
+curl 127.0.0.1:5000/api/stocks/list/gainers
+
+
+
+
+
+
+curl 127.0.0.1:5000/api/stock/add/aapl
+
+
+
+
+
+
+
+
+
+
+OLD:
+curl 127.0.0.1:5000
+
+curl 127.0.0.1:5000/api/price/aapl
+
+curl 127.0.0.1:5000/api/YOUR_API_KEY/balance
+
+curl 127.0.0.1:5000/api/YOUR_API_KEY/positions
+
+curl -H "Content-Type: application/json" -X PUT -d '{"amount": 100.0}' http://127.0.0.1:5000/api/YOUR_API_KEY/deposit
+
+curl 127.0.0.1:5000/api/YOUR_API_KEY/position_for/tsla
+
+curl 127.0.0.1:5000/api/YOUR_API_KEY/trades
+
+curl 127.0.0.1:5000/api/YOUR_API_KEY/trades_for/tsla
+
+# buy should return a response with the username, the balance, and the position for that stock
+
+curl -H "Content-Type: application/json" -X POST -d '{"ticker": "tsla", "amount": 1}' http://127.0.0.1:5000/api/YOUR_API_KEY/buy
+
+# sell should return a response with the username, the balance, and the position for that stock
+
+curl -H "Content-Type: application/json" -X POST -d '{"ticker": "tsla", "amount": 1}' http://127.0.0.1:5000/api/YOUR_API_KEY/sell
+
+# call report ten stocks by criteria: /mostactive, /gainers, /losers, /iexvolume, /iexpercent, /infocus :
+
+
+
+curl 127.0.0.1:5000/api/YOUR_API_KEY/summary
+
+curl -H "Content-Type: application/json" -X POST -d '{"username": 'Egle', "password":'mypass'}' http://127.0.0.1:5000/api/signup
