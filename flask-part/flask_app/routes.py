@@ -94,26 +94,15 @@ def get_api_key():
         'api_key': account.api_key
     })
 
-@app.route('/api/active/add/<symbol>')  
-def record(symbol):
-    result = utilDB.mySQLrecord(symbol)
-    if not result:
-       return jsonify(BAD_REQUEST), 400
-    return jsonify(result)
-
-@app.route('/api/active/delete/<symbol>')  
-def delete(symbol):
-    result = utilDB.deleteActive(symbol)
-    if not result:
-       return jsonify(APP_ERROR), 400
-    return jsonify(result)
-
-@app.route('/api/active/list')
-def getList():
-    result = utilDB.get_list()
+@app.route('/api/<api_key>/active/list')
+def getList(api_key):
+    account = Account.api_authenticate(api_key)
+    if not account:
+        return jsonify(UNATHORIZED), 401
+    result = account.get_list_symbols()
     if not result:
         return jsonify(BAD_REQUEST), 400
-    return jsonify(result)
+    return jsonify({'symbols':result})
 
 @app.route('/api/stocks/all')
 def getStocksAll():
@@ -124,4 +113,31 @@ def getStocksAll():
 
 ##############################################
 
+@app.route('/api/<api_key>/active/delete/<symbols>')  
+def delete_oneormore(api_key,symbols):
+    account = Account.api_authenticate(api_key)
+    if not account:
+        return jsonify(UNATHORIZED), 401
+    result = account.get_delete_oneormore_symbols(symbols)
+    if not result:
+       return jsonify(APP_ERROR), 400
+    return jsonify({"symbols":result})
 
+@app.route('/api/<api_key>/active/add/<symbols>')  
+def record(api_key,symbols):
+    if not symbols:
+        return jsonify({"error": "select symbol"})
+    account = Account.api_authenticate(api_key)
+    if not account:
+        return jsonify(UNATHORIZED), 401
+    symbol_id = utilDB.get_symbolID(symbols)
+    if symbol_id == None:
+        return jsonify(BAD_REQUEST), 400
+    criterialist = account.get_list_id()
+    if symbol_id in criterialist:
+        return jsonify({"error": "You have already added this ticker"})
+    account.get_add_symbol(symbols, symbol_id)
+    symbolslist = account.get_list_symbols()
+    if not symbolslist:
+        return jsonify(APP_ERROR), 400
+    return jsonify({"symbols":symbolslist, "error":""})

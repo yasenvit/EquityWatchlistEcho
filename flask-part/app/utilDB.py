@@ -7,14 +7,15 @@ con = pymysql.connect('localhost', 'root',
     '8251', 'equityDB')
 
 """
-CREATE TABLE activeTickers (
-    tickID int NOT NULL AUTO_INCREMENT,
-    ticker VARCHAR(20),
-    ID int,
-    UNIQUE (ticker),
-    PRIMARY KEY (tickID),
-    FOREIGN KEY (ID) REFERENCES symbols(ID)
-    );
+CREATE TABLE lookuptickers (
+            pk int NOT NULL AUTO_INCREMENT,
+            account_pk int,
+            symbol_id int,
+            ticker VARCHAR(10),
+            PRIMARY KEY (pk),
+            FOREIGN KEY (account_pk) REFERENCES accounts(pk),
+            FOREIGN KEY (symbol_id) REFERENCES symbols(ID)
+        );
 """
 
 def get_symbolID(symbol):
@@ -26,49 +27,34 @@ def get_symbolID(symbol):
                 return None
         ID = tupleID[0]
         return ID
-
-def mySQLrecord(symbol):
+"""
+def mySQLrecord(ID):
     with con:
         cur = con.cursor()
-        ID = get_symbolID(symbol)
-        if ID == None:
-                return {"error": "Unknown ticker"}
-        cur.execute("SELECT ticker FROM activeTickers WHERE ID=%s",ID)
+        cur.execute("SELECT ticker FROM lookuptickers WHERE symbol_id=%s",ID)
         existingID = cur.fetchone()
         if existingID:
                 return {"error": "You have already added this ticker"}
-        sql = "INSERT INTO activeTickers (ticker, ID) VALUES (%s, %s);"
+        sql = "INSERT INTO lookuptickers (ticker, symbol_id) VALUES (%s, %s);"
         cur.execute(sql, (symbol, ID))
 
-        cur.execute("SELECT ticker FROM activeTickers")
+        cur.execute("SELECT ticker FROM lookuptickers")
         symbols = cur.fetchall()
         result = []
         for sym in symbols:
                 result.append(*sym)
         return {"symbols":result, "error":""}
 
-def deleteActive(symbol):
-    with con:
-        cur = con.cursor()
-        ID = get_symbolID(symbol)
-        cur.execute("DELETE FROM activeTickers WHERE ID=%s",ID)
-        cur.execute("SELECT ticker FROM activeTickers")
-        symbols = cur.fetchall()
-        result = []
-        for sym in symbols:
-                result.append(*sym)
-        return {"symbols":result}
-
 def get_list():
     with con:
         cur = con.cursor()
-        cur.execute("SELECT ticker FROM activeTickers")
+        cur.execute("SELECT ticker FROM lookuptickers")
         symbols = cur.fetchall()
         result = []
         for sym in symbols:
                 result.append(*sym)
         return {"symbols":result}
-
+"""
 def getStocksAll():
     with con:
         cur = con.cursor()

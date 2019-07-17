@@ -46,7 +46,7 @@ flex:2.5
 margin: 1rem;
 margin-left: auto
 }
-.grid-container {
+.main-container {
 height: 85vh;
 width: 100vw;
 display: flex;

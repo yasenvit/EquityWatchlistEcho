@@ -29,6 +29,7 @@ need to install:
     sudo apt-get update
     sudo apt install python3-pip
     pip install flask requests flask-cors
+    python3 -m pip install PyMySQL
 
 ---to save requirements:
     pip freeze --local > requirements.txt

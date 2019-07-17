@@ -23,6 +23,24 @@ def seed():
         account.api_key = 'abcde0123456789'
         account.save()
 
+       
+        lookupticker1=app.Lookupticker()
+        lookupticker1.account_pk = 2
+        lookupticker1.ticker = "aapl"
+        lookupticker1.symbol_id = 14
+        lookupticker1.save()
+
+        lookupticker2=app.Lookupticker()
+        lookupticker2.account_pk = 2
+        lookupticker2.ticker = "a"
+        lookupticker2.symbol_id = 1
+        lookupticker2.save()
+
+        lookupticker3=app.Lookupticker()
+        lookupticker3.account_pk = 2
+        lookupticker3.ticker = "aa"
+        lookupticker3.symbol_id = 2
+        lookupticker3.save()
         
         position1 = app.Position()
         position1.account_pk = 2

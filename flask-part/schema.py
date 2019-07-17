@@ -7,7 +7,7 @@ def create_db():
     with con:
         cur = con.cursor()
 
-        tables = ['positions', 'trades', 'accounts']
+        tables = ['positions', 'trades', 'lookuptickers','accounts', ]
         SQL = " DROP TABLE IF EXISTS {};"
         for table in tables:
             cur.execute(SQL.format(table))
@@ -22,6 +22,18 @@ def create_db():
             PRIMARY KEY (pk)            
         );
         """
+        activetickersSchema = """
+        CREATE TABLE lookuptickers (
+            pk int NOT NULL AUTO_INCREMENT,
+            account_pk int,
+            symbol_id int,
+            ticker VARCHAR(10),
+            PRIMARY KEY (pk),
+            FOREIGN KEY (account_pk) REFERENCES accounts(pk),
+            FOREIGN KEY (symbol_id) REFERENCES symbols(ID)
+        );
+        """
+
         positionsSchema = """
         CREATE TABLE positions (
             pk int NOT NULL AUTO_INCREMENT,
@@ -45,7 +57,7 @@ def create_db():
             FOREIGN KEY(account_pk) REFERENCES accounts(pk)
         );
         """
-        schemas = [accountsSchema, positionsSchema, tradesSchema]
+        schemas = [accountsSchema, activetickersSchema, positionsSchema, tradesSchema]
         for schema in schemas:
             cur.execute(schema)
 

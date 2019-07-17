@@ -32,7 +32,6 @@ class ORM:
         values = []
         for fieldname in self.fields:
             values.append(self.__dict__.get(fieldname))
-            
         return tuple(values)
 
     def _insert(self):
@@ -88,6 +87,7 @@ class ORM:
         representing each matched row """
         with con:
             cur = con.cursor()
+
             SQLPATTERNcol = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table}' AND TABLE_SCHEMA = '{schema}'"
             SQLcol = SQLPATTERNcol.format(table=cls.table, schema=schema)
             cur.execute(SQLcol)
@@ -98,12 +98,13 @@ class ORM:
             cur.execute(SQL, values)
             results = cur.fetchall()
             resultList = []
-            for result in results:
+            for result in results:s
                 resultDict = {}
                 for a in columnNames:
                     i = columnNames.index(a)
                     resultDict[a[0]] = result[i]
                 resultList.append(cls._from_row(resultDict))
+                
             return resultList
 
     @classmethod
@@ -132,23 +133,6 @@ class ORM:
     def from_pk(cls, pk):
         """ grab the row with the given pk """
         return cls.select_one("WHERE pk = %s", (pk, ))
-    
-    @classmethod
-    def delete_oneormore(cls, where, value):
-        with con:
-            cur = con.cursor()
-            SQLPATTERN = "DELETE FROM {table} {where};"
-            SQL = SQLPATTERN.format(table=cls.table, where=where)
-            cur.execute(SQL, value)
-  
-            cur.execute("SELECT ticker FROM {table}".format(table=cls.table))
-            itemslist = cur.fetchall()
-            result = []
-            for item in itemslist:
-                result.append(*item)
-            print(result)
-            return result
-
 
 
 class Test(ORM):
@@ -173,3 +157,25 @@ if __name__ == "__main__":
     objects = Test.select_many()
     for obj in objects:
         print("pk = ", obj.pk, obj.field1, obj.field2)
+
+
+
+def delete_oneormore(self, where, value):
+    if not self.pk:
+        raise ValueError("pk not set for delete operation")
+    with con:
+        cur = con.cursor()
+        SQLPATTERN = "DELETE FROM {table} {where};"
+        SQL = SQLPATTERN.format(table=self.table, where=where)
+        cur.execute(SQL, value)
+    
+        cur.execute("SELECT ticker FROM {table}".format(table=self.table))
+        results = cur.fetchall()
+        resultList = []
+        for result in results:
+            resultDict = {}
+            for a in columnNames:
+                i = columnNames.index(a)
+                resultDict[a[0]] = result[i]
+            resultList.append(cls._from_row(resultDict))
+        return resultList

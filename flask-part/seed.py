@@ -15,7 +15,7 @@ def seed():
     con = pymysql.connect('localhost', 'root', 
     '8251', 'equityDB', autocommit = "true")
     with con:
-        tables = ['positions', 'trades', 'accounts']
+        tables = ['positions', 'trades', 'accounts', 'lookuptickers']
         SQL = "DELETE FROM {};"
         for table in tables:
                 cur = con.cursor()

@@ -64,9 +64,10 @@ export default class SelectItem extends Component {
     })
   }
 
-    handleChange = selectedOption => {
+    handleChange = (selectedOption) => {
       this.setState({ selectedOption });
       console.log(`Option selected:`, selectedOption);
+      this.props.addSymbol(selectedOption.value)
     };
 
     componentDidMount() {
@@ -96,7 +97,7 @@ export default class SelectItem extends Component {
           onChange={this.handleChange}
           options={options}
           styles={customStyles}
-    placeholder= "add ticker"
+    placeholder= "Quote lookup"
     openMenuOnClick={false}
     
     classNamePrefix= "select"

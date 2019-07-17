@@ -1,3 +1,6 @@
--add symbol
--auto select symbol
--roue for group deleting
+
+-auto select symbol -done
+-roue for group deleting - done
+
+
+-add symbol with api_key

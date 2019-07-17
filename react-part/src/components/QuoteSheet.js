@@ -20,6 +20,7 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import {Route, Link} from 'react-router-dom';
+import SelectItem from '../util/SelectItem'
 
 function createData(symbol,latestPrice,marketCap,avgTotalVolume,peRatio,open,close,low,
                             high,week52Low,week52High,change,changePercent,ytdChange) {
@@ -162,27 +163,23 @@ const onClickChartHandler=(symbol) => {
   return console.log("hello chart", symbol)
 }
 
-
-
-
-
 /*************************************************************************************************/
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
   const { numSelected,
           selected,
           delSymbol,
+          addSymbol,
           setSelected,
-          stableSort,
           activeQuotes,
+          /*stableSort,
           rows,
           order,
           orderBy,
-          EnhancedTable
+          EnhancedTable*/
         } = props;
-        const {newprops} = {selected, delSymbol, setSelected, activeQuotes, rows, order, orderBy,}
- 
 
+console.log("activequotes============",activeQuotes,)
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -196,7 +193,9 @@ const EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Quotes
+            <div style={{width:"140px"}}>
+              <SelectItem addSymbol={addSymbol}/>
+            </div>
           </Typography>
         )}
       </div>
@@ -207,9 +206,7 @@ const EnhancedTableToolbar = props => {
             <IconButton aria-label="Delete"  >
               <DeleteIcon onClick={(e)=>(
                 delSymbol(selected),
-                setSelected([]),
-                /*stableSort(rows(activeQuotes),getSorting(order, orderBy)),*/
-                EnhancedTable(newprops)
+                setSelected([]) 
                 )} 
               />
             </IconButton>
@@ -254,7 +251,7 @@ const useStyles = makeStyles(theme => ({
 
 /****************************************************************************************************/
 export default function EnhancedTable(props) {
-const { activeQuotes, delSymbol, setChartsTicker } = props
+  const { activeQuotes, addSymbol, delSymbol, setChartsTicker } = props
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('marketCap');
@@ -325,6 +322,7 @@ const { activeQuotes, delSymbol, setChartsTicker } = props
         <EnhancedTableToolbar 
           numSelected={selected.length}
           delSymbol={delSymbol}
+          addSymbol={addSymbol}
           /******************/
           selected={selected}
           setSelected={setSelected}

@@ -2,6 +2,7 @@ import time
 from app.orm import ORM
 from app.util import get_price, hash_pass
 from app.position import Position
+from app.lookupticker import Lookupticker
 from app.trade import Trade
 import random
 import string
@@ -184,3 +185,40 @@ class Account(ORM):
                 'marginPercentage': round(marginPercentage,4)
             })
         return dictList
+    
+    def get_delete_oneormore_symbols(self, symbols):
+        symbolslist = []
+        for symbol in symbols.split(","):
+            symbolslist.append(symbol)
+        if len(symbolslist)>1:
+            where = "WHERE ticker IN {} and account_pk = %s".format(tuple(symbolslist))
+        else:
+            where = "WHERE ticker IN ('{}') and account_pk = %s".format(symbols)
+        values = (self.pk, )
+        return Lookupticker.delete_oneormore(where, values)
+
+    def get_list_id(self):
+        where = "WHERE account_pk=%s"
+        values = (self.pk)
+        lookuptickers = Lookupticker.select_many(where, values)
+        listid = []
+        for ticker in lookuptickers:
+            listid.append(ticker.symbol_id)
+        return listid
+
+    def get_list_symbols(self):
+        where = "WHERE account_pk=%s"
+        values = (self.pk)
+        lookuptickers = Lookupticker.select_many(where, values)
+        listsymbols = []
+        for ticker in lookuptickers:
+            listsymbols.append(ticker.ticker)
+        return listsymbols
+
+    def get_add_symbol(self, symbol, id):
+        lookupticker = Lookupticker()
+        lookupticker.ticker = symbol
+        lookupticker.symbol_id = id
+        lookupticker.account_pk = self.pk
+        lookupticker.save()
+        
