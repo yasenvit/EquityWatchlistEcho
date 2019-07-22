@@ -103,8 +103,9 @@ class AreaChart extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // console.log("component DID UPDATE")
     if(this.props.tickerToLook !== prevProps.tickerToLook){
-      // console.log("component DID UPDATE")
+      // console.log("PROPS AND VALUE ARE NOT SAME")
       this.setState({tickerToLook: this.props.tickerToLook})
       this.getChartData(this.props.tickerToLook,"1m")
     } 
@@ -149,10 +150,9 @@ class AreaChart extends Component {
 
   }
   render() {
-// console.log("RENDER setchart=>", this.setChartData(hdata))
-console.log("--------------------------------------------------------------------RENDER period=>", this.state.selection)
-console.log("RENDER state Ticker=>", this.state.tickerToLook)
-console.log("RENDER props Ticker=>", this.props.tickerToLook)
+// console.log("--------------------------------------------------------------------RENDER=>")
+// console.log("RENDER state Ticker=>", this.state.tickerToLook)
+// console.log("RENDER props Ticker=>", this.props.tickerToLook)
 // console.log("RENDER state series=>", this.state.series)
 // console.log("RENDER xaxis MIN",this.state.options.xaxis.min)
 // console.log("RENDER xaxis Max",this.state.options.xaxis.max)

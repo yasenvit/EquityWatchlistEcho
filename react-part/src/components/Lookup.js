@@ -4,6 +4,7 @@ import Chart from './Ticker/Chart'
 import Summary from './Ticker/Summary'
 import Statistic from './Ticker/Statistic'
 import '../styles/style.css';
+import apiCall from '../util/apiCall';
 
 const linkStyleActive = {
     display: 'flex',
@@ -21,45 +22,60 @@ const linkStyleActive = {
 export default class Lookup extends Component {
     state = {
         lookupTicker: null,
-        symbolDisplay: null
+        tickerQuote: null,
+        pickedTicker: null
     }
-    symbolDisplayHandle = (symbol) => {
-        this.setState({symbolDisplay: symbol})
-    }
+    
+    getQuote (symbol) {
+        if(symbol) {
+        const endpoint = `/api/stock/${symbol}/quote`
+        const promise = apiCall(endpoint,'get')
+        promise.then(blob => blob.json()).then (json=> {
+           this.setState({
+            tickerQuote: json.quote,
+            lookupTicker: json.quote.symbol
+          })
+        })
+      }}
+
 
     pickHandle = (symbol) => {
-        this.setState({
-            lookupTicker: symbol
-        })
+        this.getQuote(symbol)
     }
     componentDidMount () {
        this.setState({lookupTicker: this.props.lookupTicker})
+       this.getQuote(this.props.lookupTicker)
     }
 
     render() {
-        // console.log("-->",this.state.lookupTicker,"<--")
+        const roundTo = require('round-to')
         let secondRouteList
-        
-        secondRouteList = [
-            <Route exact path="/dashboard/lookup" render={(props)=><Redirect to="/dashboard/lookup/summary"/>}/>,
 
+        secondRouteList = [
+            <Route exact path="/dashboard/lookup/chart/:symbol?" render={(props)=><Redirect to={linkToChart}/>}/>,
+            <Route exact path="/dashboard/lookup/summary/:symbol?" render={(props)=><Redirect to={linkToSummary}/>}/>,
+            <Route exact path="/dashboard/lookup/statistic/:symbol?" render={(props)=><Redirect to={linkToStatistic}/>}/>,
+            <Route exact path="/dashboard/lookup" render={(props)=><Redirect to="/dashboard/lookup/summary"/>}/>,
             <Route exact path="/dashboard/lookup/summary/:symbol?" render={(props)=>
-                <Summary symbolDisplayHandle={this.symbolDisplayHandle} {...props} />}/>,
+                <Summary tickerQuote={this.state.tickerQuote} pickHandle = {this.pickHandle} {...props} />}/>,
             <Route exact path="/dashboard/lookup/chart/:symbol?" render={(props)=>
                 <Chart pickHandle = {this.pickHandle} {...props} />}/>,
             <Route exact path="/dashboard/lookup/statistic/:symbol?" render={(props)=>
                 <Statistic {...props} />}/>,
         ]
-        
+            
         let linkToSummary = this.state.lookupTicker?`/dashboard/lookup/summary/${this.state.lookupTicker}`:`/dashboard/lookup/summary`
         let linkToChart = this.state.lookupTicker?`/dashboard/lookup/chart/${this.state.lookupTicker}`:`/dashboard/lookup/chart`
         let linkToStatistic = this.state.lookupTicker?`/dashboard/lookup/statistic/${this.state.lookupTicker}`:`/dashboard/lookup/statistic`
         let companyName = (<div></div>)
-        if(this.state.symbolDisplay){
+        if(this.state.tickerQuote){
             companyName = (
-                <div>{this.state.symbolDisplay.companyName} ({this.state.symbolDisplay.symbol}) </div>
+                <div>{this.state.tickerQuote.companyName} ({this.state.tickerQuote.symbol}) </div>
             )
         }
+        console.log(this.state.tickerQuote,"1111")
+        console.log(this.state.lookupTicker,"222")
+        // console.log(this.state.pickedTicker,"333")
         return (
             <Fragment>
                 <div className="space-btw-navs">
@@ -67,11 +83,11 @@ export default class Lookup extends Component {
                         {companyName}
                     </div>
                     <div className="space-btw-navs-market">
-                        {this.state.symbolDisplay?this.state.symbolDisplay.primaryExchange:null}
+                        {this.state.tickerQuote?this.state.tickerQuote.primaryExchange:null}
                     </div>
                     <div className="space-btw-navs-container">
                         <div className="space-btw-navs-price">
-                            {this.state.symbolDisplay?this.state.symbolDisplay.latestPrice:null}
+                            {this.state.tickerQuote?roundTo(this.state.tickerQuote.latestPrice,2):null}
                         </div>
                         <div className="space-btw-navs-div">
                             Forward Dividend Yields here

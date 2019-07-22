@@ -11,38 +11,32 @@ export default class Summary extends Component {
         // selfTicker: null
     }
 
-    getQuote (symbol) {
-        if(symbol) {
-        const endpoint = `/api/stock/${symbol}/quote`
-        const promise = apiCall(endpoint,'get')
-        promise.then(blob => blob.json()).then (json=> {
-           this.setState({
-            tickerQuote: json.quote
-          })
-          this.props.symbolDisplayHandle(json.quote)
-        })
-      }}
-
-    pickHandle = (symbol) => {
-        this.setState({
-            selfTicker: symbol
-        })
-    }
     componentDidMount(){
-        if(this.props.match.params.symbol) {
-            this.setState({tickerToLook:this.props.match.params.symbol})
-            this.getQuote(this.props.match.params.symbol)
+        if(this.props.match.params.symbol && this.props.tickerQuote) {
+            this.setState({
+                tickerToLook:this.props.match.params.symbol,
+            })
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if(this.props.tickerQuote !== prevProps.tickerQuote ||
+             this.state.tickerQuote !== this.props.tickerQuote){
+           this.setState({tickerQuote: this.props.tickerQuote})
+        } else {
+            if(this.state.tickerToLook !== this.props.match.params.symbol){
+                this.setState({tickerToLook: this.props.match.params.symbol})
+            } 
         }
     }
 
     render() {
+        console.log(this.state.tickerQuote,"SUMMARY - 1111")
         const roundTo = require('round-to')
-        console.log("->quote->",this.state.quote)
         return (
             <Fragment>
                 <div className="chart-header">
                     <div style={{width:"140px", padding:"0.2rem"}}>
-                        <SelectItem pickHandle = {this.pickHandle}/>
+                        <SelectItem pickHandle = {this.props.pickHandle}/>
                     </div>
                     <div>
                         
@@ -143,7 +137,7 @@ export default class Summary extends Component {
 
                     </div>
                     <div className="chart-body">
-                        <AreaChartSmall tickerToLook={this.state.tickerToLook} selfTicker={this.state.selfTicker}/>
+                        <AreaChartSmall tickerToLook={this.state.tickerToLook}/>
                     </div>
                     </div>
                         
