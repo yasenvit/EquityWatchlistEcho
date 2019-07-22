@@ -123,20 +123,20 @@ def delete_oneormore(api_key,symbols):
        return jsonify(APP_ERROR), 400
     return jsonify({"symbols":result})
 
-@app.route('/api/<api_key>/active/add/<symbols>')  
-def record(api_key,symbols):
-    if not symbols:
+@app.route('/api/<api_key>/active/add/<symbol>')  
+def record(api_key,symbol):
+    if not symbol:
         return jsonify({"error": "select symbol"})
     account = Account.api_authenticate(api_key)
     if not account:
         return jsonify(UNATHORIZED), 401
-    symbol_id = utilDB.get_symbolID(symbols)
+    symbol_id = utilDB.get_symbolID(symbol)
     if symbol_id == None:
         return jsonify(BAD_REQUEST), 400
     criterialist = account.get_list_id()
     if symbol_id in criterialist:
         return jsonify({"error": "You have already added this ticker"})
-    account.get_add_symbol(symbols, symbol_id)
+    account.get_add_symbol(symbol, symbol_id)
     symbolslist = account.get_list_symbols()
     if not symbolslist:
         return jsonify(APP_ERROR), 400

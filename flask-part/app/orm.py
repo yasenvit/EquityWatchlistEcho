@@ -139,9 +139,10 @@ class ORM:
             cur = con.cursor()
             SQLPATTERN = "DELETE FROM {table} {where};"
             SQL = SQLPATTERN.format(table=cls.table, where=where)
+            cur.execute(SQL)
+
+            SQL= "SELECT ticker FROM {table} WHERE account_pk = %s ".format(table=cls.table)
             cur.execute(SQL, value)
-  
-            cur.execute("SELECT ticker FROM {table}".format(table=cls.table))
             itemslist = cur.fetchall()
             result = []
             for item in itemslist:

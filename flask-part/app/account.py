@@ -191,9 +191,9 @@ class Account(ORM):
         for symbol in symbols.split(","):
             symbolslist.append(symbol)
         if len(symbolslist)>1:
-            where = "WHERE ticker IN {} and account_pk = %s".format(tuple(symbolslist))
+            where = "WHERE ticker IN {} and account_pk = {}".format(tuple(symbolslist), self.pk)
         else:
-            where = "WHERE ticker IN ('{}') and account_pk = %s".format(symbols)
+            where = "WHERE ticker IN ('{}') and account_pk = {}".format(symbols, self.pk)
         values = (self.pk, )
         return Lookupticker.delete_oneormore(where, values)
 

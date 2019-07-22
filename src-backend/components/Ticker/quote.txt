@@ -1,0 +1,60 @@
+{
+  "quote": {
+        "avgTotalVolume": 21782284,
+    "calculationPrice": "close",
+    "change": -3.07,
+    "changePercent": -0.01493,
+        "close": 202.59,
+    "closeTime": 1563566400618,
+    "companyName": "Apple, Inc.",
+    "delayedPrice": 202.52,
+    "delayedPriceTime": 1563567300002,
+    "extendedChange": -0.19,
+    "extendedChangePercent": -0.00094,
+    "extendedPrice": 202.4,
+    "extendedPriceTime": 1563753592141,
+        "high": 206.5,
+                                                    "iexAskPrice": null,
+                                                    "iexAskSize": null,
+                                                    "iexBidPrice": null,
+                                                    "iexBidSize": null,
+                                                    "iexLastUpdated": null,
+                                                    "iexMarketPercent": null,
+                                                    "iexRealtimePrice": null,
+                                                    "iexRealtimeSize": null,
+                                                    "iexVolume": null,
+    "lastTradeTime": 1563567300002,
+    "latestPrice": 202.59,
+    "latestSource": "Close",
+    "latestTime": "July 19, 2019",
+    "latestUpdate": 1563566400618,
+        "latestVolume": 20895587,
+        "low": 202.36,
+        "marketCap": 932132797200,
+        "open": 206,
+    "openTime": 1563543000745,
+        "peRatio": 16.9,
+        "previousClose": 205.66,
+        "previousVolume": 18582161,
+    "primaryExchange": "NASDAQ",
+    "symbol": "AAPL",
+    "volume": 20895587,
+    "week52High": 233.47,
+    "week52Low": 142,
+    "ytdChange": 0.267935
+  }
+}
+
+
+topheader - 3vh
+page        97vh:-----------------
+    page-top-field: 8vh
+    page-field:     89vh:------------------
+        space-btw-navs: 17vh
+        navheader:       7vh
+        lookup-field:   65vh:------------------
+            chart-header:  7vh
+            chart-header: 57vh:------------------------
+                chart-info, chart-body: 57vh:(55)
+
+

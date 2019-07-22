@@ -179,7 +179,8 @@ const EnhancedTableToolbar = props => {
           EnhancedTable*/
         } = props;
 
-console.log("activequotes============",activeQuotes,)
+// console.log("SELECTED============",selected,)
+// console.log("DELETE FUNCTION============",delSymbol,)
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -378,6 +379,7 @@ export default function EnhancedTable(props) {
                         <Link 
                           style={{textDecoration:"none", color:"rgb(28, 104, 243)"}}
                           onClick={(e)=>{setChartsTicker(row.symbol)}}
+                          to={`/dashboard/lookup/summary/${row.symbol}`}
                         >
                           {row.symbol}
                         </Link>

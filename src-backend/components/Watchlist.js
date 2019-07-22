@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import apiCall from '../util/apiCall';
 import QuoteSheet from './QuoteSheet'
+import '../styles/style.css';
 
 
-export default class Quotes extends Component {
+export default class Watchlist extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -25,6 +26,7 @@ export default class Quotes extends Component {
     }
 
     getQuotes (symbols) {
+      if(symbols) {
       const activeTickers = symbols.join()
       const endpoint = `/api/list/${activeTickers}/quote`
       const promise = apiCall(endpoint,'get')
@@ -33,10 +35,10 @@ export default class Quotes extends Component {
           activeQuotes: json.quotes
         })
       })
-    }
+    }}
 
-    addSymbol=(symbols) =>{
-      const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/add/${symbols}`
+    addSymbol=(symbol) =>{
+      const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/add/${symbol}`
       const promise = apiCall(endpoint,'get')
       promise.then(blob => blob.json()).then(json => {
       if(json.error.length>0) {
@@ -47,8 +49,8 @@ export default class Quotes extends Component {
        })
     }
 
-    delSymbol=(symbol) =>{
-      const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/delete/${symbol}`
+    delSymbol=(symbols) =>{
+      const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/delete/${symbols}`
       const promise = apiCall(endpoint,'get')
       promise.then(blob => blob.json()).then(json => {
       this.setState({activeTickers: json.symbols})
@@ -81,10 +83,14 @@ export default class Quotes extends Component {
         />
       )
     }
-    return (
-      <div>
-        {output}
-      </div>
-    )
-  }
+        return (
+            <Fragment>
+                <div className="navheader">
+                </div>
+                <div className="watchlist-field">
+                    {output}
+                </div>
+            </Fragment>
+        )
+    }
 }

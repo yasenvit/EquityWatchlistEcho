@@ -27,34 +27,7 @@ def get_symbolID(symbol):
                 return None
         ID = tupleID[0]
         return ID
-"""
-def mySQLrecord(ID):
-    with con:
-        cur = con.cursor()
-        cur.execute("SELECT ticker FROM lookuptickers WHERE symbol_id=%s",ID)
-        existingID = cur.fetchone()
-        if existingID:
-                return {"error": "You have already added this ticker"}
-        sql = "INSERT INTO lookuptickers (ticker, symbol_id) VALUES (%s, %s);"
-        cur.execute(sql, (symbol, ID))
 
-        cur.execute("SELECT ticker FROM lookuptickers")
-        symbols = cur.fetchall()
-        result = []
-        for sym in symbols:
-                result.append(*sym)
-        return {"symbols":result, "error":""}
-
-def get_list():
-    with con:
-        cur = con.cursor()
-        cur.execute("SELECT ticker FROM lookuptickers")
-        symbols = cur.fetchall()
-        result = []
-        for sym in symbols:
-                result.append(*sym)
-        return {"symbols":result}
-"""
 def getStocksAll():
     with con:
         cur = con.cursor()
@@ -63,5 +36,4 @@ def getStocksAll():
         result = []
         for sym in symbols:
                 result.append({"value":str(*sym), "label": str(*sym)})
-        print(result)
         return {"selectSymbols":result}

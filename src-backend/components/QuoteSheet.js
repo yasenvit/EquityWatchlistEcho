@@ -20,6 +20,7 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import {Route, Link} from 'react-router-dom';
+import SelectItem from '../util/SelectItem'
 
 function createData(symbol,latestPrice,marketCap,avgTotalVolume,peRatio,open,close,low,
                             high,week52Low,week52High,change,changePercent,ytdChange) {
@@ -158,12 +159,9 @@ const useToolbarStyles = makeStyles(theme => ({
 
 
 const onClickChartHandler=(symbol) => {
+  
   return console.log("hello chart", symbol)
 }
-
-
-
-
 
 /*************************************************************************************************/
 const EnhancedTableToolbar = props => {
@@ -171,18 +169,18 @@ const EnhancedTableToolbar = props => {
   const { numSelected,
           selected,
           delSymbol,
+          addSymbol,
           setSelected,
-          stableSort,
           activeQuotes,
+          /*stableSort,
           rows,
           order,
           orderBy,
-          EnhancedTable
+          EnhancedTable*/
         } = props;
 
-  console.log("------selected--------", selected )
-  console.log("NEW+++++++++++++++++++++++++++++++",delSymbol)
-
+// console.log("SELECTED============",selected,)
+// console.log("DELETE FUNCTION============",delSymbol,)
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -196,7 +194,9 @@ const EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Quotes
+            <div style={{width:"140px"}}>
+              <SelectItem addSymbol={addSymbol}/>
+            </div>
           </Typography>
         )}
       </div>
@@ -207,8 +207,7 @@ const EnhancedTableToolbar = props => {
             <IconButton aria-label="Delete"  >
               <DeleteIcon onClick={(e)=>(
                 delSymbol(selected),
-                setSelected([]),
-                stableSort(rows(activeQuotes),getSorting(order, orderBy))
+                setSelected([]) 
                 )} 
               />
             </IconButton>
@@ -253,7 +252,7 @@ const useStyles = makeStyles(theme => ({
 
 /****************************************************************************************************/
 export default function EnhancedTable(props) {
-const { activeQuotes, delSymbol } = props
+  const { activeQuotes, addSymbol, delSymbol, setChartsTicker } = props
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('marketCap');
@@ -279,7 +278,7 @@ const { activeQuotes, delSymbol } = props
   }
 
   function handleClick(event, symbol) {
-     console.log("symbol handleclick",symbol)
+
     const selectedIndex = selected.indexOf(symbol);
     let newSelected = [];
 
@@ -298,7 +297,6 @@ const { activeQuotes, delSymbol } = props
 
     setSelected(newSelected);
   }
-  console.log("selected", selected)
 
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -320,10 +318,12 @@ const { activeQuotes, delSymbol } = props
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+
+
         <EnhancedTableToolbar 
           numSelected={selected.length}
           delSymbol={delSymbol}
-
+          addSymbol={addSymbol}
           /******************/
           selected={selected}
           setSelected={setSelected}
@@ -334,6 +334,8 @@ const { activeQuotes, delSymbol } = props
           orderBy={orderBy}
           /*******************/
         />
+
+
         <div className={classes.tableWrapper}>
           <Table
             className={classes.table}
@@ -347,9 +349,8 @@ const { activeQuotes, delSymbol } = props
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows(activeQuotes).length}
-              
-              /* onClickDeleteHandler={delSymbol(selected)} ************************added*****/
             />
+            
             <TableBody>
               {stableSort(rows(activeQuotes), getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -366,6 +367,7 @@ const { activeQuotes, delSymbol } = props
                       tabIndex={-1}
                       key={row.symbol}
                       selected={isItemSelected}
+                      setChartsTicker={setChartsTicker}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
@@ -376,7 +378,8 @@ const { activeQuotes, delSymbol } = props
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         <Link 
                           style={{textDecoration:"none", color:"rgb(28, 104, 243)"}}
-                          onClick={(e)=>{onClickChartHandler(row.symbol)}}
+                          onClick={(e)=>{setChartsTicker(row.symbol)}}
+                          to={`/dashboard/lookup/summary/${row.symbol}`}
                         >
                           {row.symbol}
                         </Link>
