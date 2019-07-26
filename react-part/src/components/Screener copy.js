@@ -13,7 +13,7 @@ const linkStyleActive = {
     alignItems: 'center',
     justifyContent: 'center',
     textDecoration: 'none',
-    width: '110px',
+    width: '70px',
     color: 'rgb(58, 85, 143)',
     height: '8vh',
     padding: '5px',
@@ -32,13 +32,13 @@ export default class Screener extends Component {
 
             // <Route exact path="/dashboard/screener" render={(props)=><Redirect to="/dashboard/screener/custom"/>}/>,
             <Route exact path="/dashboard/screener/custom" render={(props)=>
-                <EquityScreen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
+                <EquityScreen {...props} />}/>,
             <Route exact path="/dashboard/screener/mostactive" render={(props)=>
-                <Mostactive setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
+                <Mostactive {...props} />}/>,
             <Route exact path="/dashboard/screener/gainers" render={(props)=>
-                <Gainers setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
+                <Gainers {...props} />}/>,
             <Route exact path="/dashboard/screener/losers" render={(props)=>
-                <Losers setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
+                <Losers {...props} />}/>,
            
         ]
            

@@ -59,8 +59,18 @@ def get_listTen(criteria):
     listTen = util.list_ten(criteria)
     if not listTen:
         return jsonify(APP_ERROR), 500
-    return jsonify({criteria : listTen})
-    
+    return jsonify({"listTen": listTen})
+
+@app.route('/api/stock/<symbol>/stats')
+def get_stats(symbol):
+    eps = util.get_eps(symbol)
+    if not eps:
+        return jsonify(APP_ERROR), 500
+    stats = util.get_stats(symbol)
+    return jsonify({"stats": stats, "eps": eps["earnings"][0]})
+
+
+   
 #####################################################################
 
 @app.route('/api/signup', methods=['POST'])
@@ -141,3 +151,13 @@ def record(api_key,symbol):
     if not symbolslist:
         return jsonify(APP_ERROR), 400
     return jsonify({"symbols":symbolslist, "error":""})
+
+
+
+####################### not used ######################################
+    
+@app.route('/api/stock/<symbol>/previous')
+def getPrevPrice(symbol):
+    prevPrice = util.get_previous_price(symbol)
+    return jsonify({"prevPrice":prevPrice})
+

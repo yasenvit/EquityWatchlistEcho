@@ -2,14 +2,13 @@ import React, { Component, Fragment } from 'react'
 import SelectItem from '../../util/SelectItem'
 import '../../styles/style.css';
 import AreaChartSmall from './AreaChartSmall'
-import apiCall from '../../util/apiCall';
+
 
 export default class Summary extends Component {
     state = {
         tickerQuote: null,
         tickerToLook: null,
-        // selfTicker: null
-    }
+     }
 
     componentDidMount(){
         if(this.props.match.params.symbol && this.props.tickerQuote) {
@@ -30,21 +29,14 @@ export default class Summary extends Component {
     }
 
     render() {
-        console.log(this.state.tickerQuote,"SUMMARY - 1111")
         const roundTo = require('round-to')
+        let week52Range = this.state.tickerQuote?<div>{this.state.tickerQuote.week52Low} - {this.state.tickerQuote.week52Low}</div>:""
+        let dayRange = this.state.tickerQuote?<div>{this.state.tickerQuote.low} - {this.state.tickerQuote.high}</div>:""
+        
         return (
             <Fragment>
-                <div className="chart-header">
-                    <div style={{width:"140px", padding:"0.2rem"}}>
-                        <SelectItem pickHandle = {this.props.pickHandle}/>
-                    </div>
-                    <div>
-                        
-                    </div>
-                </div>
                 <div className="chart-field">
                     <div className="chart-info">
-
                         <div className="chart-info-column">
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Previous close</div>
@@ -62,20 +54,14 @@ export default class Summary extends Component {
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Day's Range</div>
-                                <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.low:""
-                                    } - {
-                                        this.state.tickerQuote?this.state.tickerQuote.high:""
-                                        }
+                                <div className="chart-info-column-row-value">
+                                    {dayRange}
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">52 Week Range</div>
-                                <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.week52Low:""
-                                    } - {
-                                        this.state.tickerQuote?this.state.tickerQuote.week52High:""
-                                        }
+                                <div className="chart-info-column-row-value">
+                                    {week52Range}
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
@@ -88,7 +74,7 @@ export default class Summary extends Component {
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Avg. Volume</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.avgTotalVolume:""}
+                                    this.state.tickerQuote?<div>{this.state.tickerQuote.avgTotalVolume?roundTo(this.state.tickerQuote.avgTotalVolume/1e6,4):""}M</div>:""}
                                 </div>
                             </div>
                         </div>
@@ -103,7 +89,7 @@ export default class Summary extends Component {
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Market Cap</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.marketCap:""
+                                    this.state.tickerQuote?<div>{this.state.tickerQuote.marketCap?roundTo(this.state.tickerQuote.marketCap/1e9,4):""}B</div>:""
                                     }
                                 </div>
                             </div>
@@ -122,14 +108,14 @@ export default class Summary extends Component {
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Change Percent</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?roundTo(this.state.tickerQuote.changePercent,4):""
+                                    this.state.tickerQuote?this.state.tickerQuote.changePercent?<div>{roundTo(this.state.tickerQuote.changePercent,4)}%</div>:"":""
                                     }
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Year to Date change</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?roundTo(this.state.tickerQuote.ytdChange,4):""
+                                    this.state.tickerQuote?this.state.tickerQuote.ytdChange?<div>{roundTo(this.state.tickerQuote.ytdChange,4)}%</div>:"":""
                                     }
                                 </div>
                             </div>

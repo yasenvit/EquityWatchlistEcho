@@ -65,7 +65,7 @@ class AreaChart extends Component {
   
   getChartData = (ticker) => {
     console.log("getchartdata function")
-    const promise = fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/intraday-prices?token=${process.env.REACT_APP_API_PUBLISH}`)
+    const promise /*= fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/intraday-prices?token=${process.env.REACT_APP_API_PUBLISH}`)*/
     promise.then(blob=>blob.json()).then(json=>{
       console.log(json)
       this.setChartData(json)

@@ -8,19 +8,9 @@ export default class Chart extends Component {
     render() {
    
         return (
-            <div className="chart">
-                <div className="chart-header">
-                    
-                    <div  style={{width:"140px", padding:"0.2rem", marginLeft:"70px" }}>
-                        <SelectItem pickHandle = {this.props.pickHandle}/>
-                    </div>
-                    <div>
-                    </div>
-                </div>
-                <div className="chart-field">
-                    <div className="chart-body" style={{backgroundColor:"yellow"}}>
-                        <AreaChart tickerToLook={this.props.match.params.symbol}/>
-                    </div>
+            <div>
+                <div>
+                    <AreaChart tickerToLook={this.props.match.params.symbol}/>
                 </div>
             </div>
         )

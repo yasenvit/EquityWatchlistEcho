@@ -13,7 +13,7 @@ const linkStyleActive = {
   textDecoration: 'none',
   marginLeft: '5px',
   color: 'rgb(58, 85, 143)',
-  padding: '3px',
+  padding: '5px',
   borderBottom: '1.5px solid rgb(58, 85, 143)'
 }
 
@@ -42,8 +42,8 @@ class Dashboard extends Component {
   firstRouteList = [
     <Route exact path="/dashboard/watchlist"  render={(props)=>
       <Watchlist setChartsTicker={this.setChartsTicker} lookupTicker={this.state.lookupTicker} {...props} />}/>,
-    <Route exact path="/dashboard/screener"  render={(props)=>
-      <Screener lookupTicker={this.state.lookupTicker} {...props} />}/>,
+    <Route path="/dashboard/screener"  render={(props)=>
+      <Screener setChartsTicker={this.setChartsTicker} lookupTicker={this.state.lookupTicker} {...props} />}/>,
     <Route path="/dashboard/lookup"  render={(props)=>
       <Lookup lookupTicker={this.state.lookupTicker} {...props} />}/>,
   ]

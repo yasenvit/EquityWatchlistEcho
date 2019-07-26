@@ -5,6 +5,7 @@ import Summary from './Ticker/Summary'
 import Statistic from './Ticker/Statistic'
 import '../styles/style.css';
 import apiCall from '../util/apiCall';
+import SelectItem from '../util/SelectItem'
 
 const linkStyleActive = {
     display: 'flex',
@@ -13,17 +14,26 @@ const linkStyleActive = {
     textDecoration: 'none',
     width: '70px',
     color: 'rgb(58, 85, 143)',
-    height: '7vh',
+    height: '8vh',
     padding: '5px',
     backgroundColor: 'rgb(160, 236, 250)',
     borderBottom: '3px solid rgb(58, 85, 143)'
+}
+const greenColor = {
+    color: "green",
+    fontSize:"18px"
+}
+const redColor = {
+    color: "red",
+    fontSize: "18px"
 }
 
 export default class Lookup extends Component {
     state = {
         lookupTicker: null,
         tickerQuote: null,
-        pickedTicker: null
+        pickedTicker: null,
+        prevPrice:null
     }
     
     getQuote (symbol) {
@@ -31,6 +41,7 @@ export default class Lookup extends Component {
         const endpoint = `/api/stock/${symbol}/quote`
         const promise = apiCall(endpoint,'get')
         promise.then(blob => blob.json()).then (json=> {
+            console.log("QUOTE", json)
            this.setState({
             tickerQuote: json.quote,
             lookupTicker: json.quote.symbol
@@ -41,6 +52,7 @@ export default class Lookup extends Component {
 
     pickHandle = (symbol) => {
         this.getQuote(symbol)
+    
     }
     componentDidMount () {
        this.setState({lookupTicker: this.props.lookupTicker})
@@ -57,9 +69,9 @@ export default class Lookup extends Component {
             <Route exact path="/dashboard/lookup/statistic/:symbol?" render={(props)=><Redirect to={linkToStatistic}/>}/>,
             <Route exact path="/dashboard/lookup" render={(props)=><Redirect to="/dashboard/lookup/summary"/>}/>,
             <Route exact path="/dashboard/lookup/summary/:symbol?" render={(props)=>
-                <Summary tickerQuote={this.state.tickerQuote} pickHandle = {this.pickHandle} {...props} />}/>,
+                <Summary tickerQuote={this.state.tickerQuote} {...props} />}/>,
             <Route exact path="/dashboard/lookup/chart/:symbol?" render={(props)=>
-                <Chart pickHandle = {this.pickHandle} {...props} />}/>,
+                <Chart {...props} />}/>,
             <Route exact path="/dashboard/lookup/statistic/:symbol?" render={(props)=>
                 <Statistic {...props} />}/>,
         ]
@@ -68,14 +80,21 @@ export default class Lookup extends Component {
         let linkToChart = this.state.lookupTicker?`/dashboard/lookup/chart/${this.state.lookupTicker}`:`/dashboard/lookup/chart`
         let linkToStatistic = this.state.lookupTicker?`/dashboard/lookup/statistic/${this.state.lookupTicker}`:`/dashboard/lookup/statistic`
         let companyName = (<div></div>)
+        let changes = (<div className="space-btw-navs-div"></div>)
         if(this.state.tickerQuote){
             companyName = (
                 <div>{this.state.tickerQuote.companyName} ({this.state.tickerQuote.symbol}) </div>
             )
+            if(this.state.tickerQuote.change){
+            changes = (
+                <div className="space-btw-navs-div" style={this.state.tickerQuote.change>0?greenColor:this.state.tickerQuote.change<0?redColor:null}>
+                    {roundTo(this.state.tickerQuote.change,2)} ({roundTo(this.state.tickerQuote.changePercent,4)}%)
+                </div>
+            )
+            }   
         }
-        console.log(this.state.tickerQuote,"1111")
-        console.log(this.state.lookupTicker,"222")
-        // console.log(this.state.pickedTicker,"333")
+        if(this.state.prevPrice){
+        console.log("prevPrice",this.state.prevPrice.close)}
         return (
             <Fragment>
                 <div className="space-btw-navs">
@@ -87,15 +106,22 @@ export default class Lookup extends Component {
                     </div>
                     <div className="space-btw-navs-container">
                         <div className="space-btw-navs-price">
-                            {this.state.tickerQuote?roundTo(this.state.tickerQuote.latestPrice,2):null}
+                        {this.state.tickerQuote?this.state.tickerQuote.latestPrice?roundTo(this.state.tickerQuote.latestPrice,2):"":""}
                         </div>
-                        <div className="space-btw-navs-div">
-                            Forward Dividend Yields here
-                        </div>
+                        
+                        {changes}
+                        
                     </div>
                     
                 </div>
                 <div className="navheader">
+
+                    <div className="navheader-block-select">
+                        <SelectItem pickHandle = {this.pickHandle}/>
+                    </div>
+                        <div className="filler">
+                        </div>
+                    
                     <div className="subtag">
                         <NavLink
                             exact to={linkToSummary}
@@ -120,7 +146,10 @@ export default class Lookup extends Component {
                             >Statistic
                         </NavLink>
                     </div>
+                    
                     <div className="filler">
+                    </div>
+                    <div className="navheader-block-right">
                     </div>
                 </div>
                 <div className="lookup-field">

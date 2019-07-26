@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import ReactApexChart from 'react-apexcharts';
 import '../../styles/style.css';
 
@@ -90,10 +90,10 @@ class AreaChart extends Component {
   }
   
   getChartData = (ticker, period) => {
-    const promise = fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/chart/${period}?token=${process.env.REACT_APP_API_PUBLISH}`)
-    promise.then(blob=>blob.json()).then(json=>{
-      this.setChartData(json)
-    })
+    // const promise = fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/chart/${period}?token=${process.env.REACT_APP_API_PUBLISH}`)
+    // promise.then(blob=>blob.json()).then(json=>{
+    //   this.setChartData(json)
+    // })
   }
 
   componentDidMount(){
@@ -157,7 +157,7 @@ class AreaChart extends Component {
 // console.log("RENDER xaxis MIN",this.state.options.xaxis.min)
 // console.log("RENDER xaxis Max",this.state.options.xaxis.max)
     return (
-      <div>
+      <Fragment>
         <div id="chart">
           <div className="toolbar">
             <button onClick={()=>this.updateData('1m')} id="1m" className={ (this.state.selection==='1m' ? 'active' : '')}>1M</button>
@@ -172,7 +172,7 @@ class AreaChart extends Component {
         </div>
         <div id="html-dist"> 
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

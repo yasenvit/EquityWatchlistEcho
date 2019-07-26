@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import apiCall from '../util/apiCall';
-import QuoteSheet from './QuoteSheet'
+import QuoteSheet from './Ticker/QuoteSheet'
 import '../styles/style.css';
 
 

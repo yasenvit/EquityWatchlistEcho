@@ -63,10 +63,10 @@ class AreaChartSmall extends Component {
   }
   
   getChartData = (ticker) => {
-    const promise = fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/chart/1m?token=${process.env.REACT_APP_API_PUBLISH}`)
-    promise.then(blob=>blob.json()).then(json=>{
-      this.setChartData(json)
-    })
+    // const promise = fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/chart/1m?token=${process.env.REACT_APP_API_PUBLISH}`)
+    // promise.then(blob=>blob.json()).then(json=>{
+    //   this.setChartData(json)
+    // })
   }
 
   componentDidMount(){

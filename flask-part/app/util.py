@@ -28,6 +28,12 @@ def get_price(symbol, token=TOKEN):
         return float(response.text)
     return None  
 
+def get_previous_price(symbol, token=TOKEN):
+    response = requests.get(ENDPOINT2+ "/stock/{}/previous?".format(symbol) + token)
+    if response.status_code == 200:
+        return response.json()
+    return None
+
 def get_company(symbol, token=TOKEN):
     response = requests.get(ENDPOINT2 + "/stock/{}/company?".format(symbol) + token)
     if response.status_code == 200:
@@ -56,14 +62,25 @@ def list_ten(criteria, token=TOKEN):
     else:
         raise requests.ConnectionError('http status: ' + format(response.status_code))
 
+def get_eps(symbol, token=TOKEN):
+    response = requests.get(ENDPOINT2 + "/stock/{}/earnings?".format(symbol) + token)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise requests.ConnectionError('http status: ' + format(response.status_code))
+
+"{'symbol':'AAPL','earnings':[{'actualEPS':2.46,'consensusEPS':2.36,'announceTime':'AMC','numberOfEstimates':34,'EPSSurpriseDollar':0.1,'EPSReportDate':'2019-04-30','fiscalPeriod':'Q1 2019','fiscalEndDate':'2019-03-31','yearAgo':2.73,'yearAgoChangePercent':-0.0989}]}"
 
 
+def get_stats(symbol, token=TOKEN):
+    response = requests.get(ENDPOINT2 + "/stock/{}/stats?".format(symbol) + token)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise requests.ConnectionError('http status: ' + format(response.status_code))
 
 
-
-
-    """
+    
   #curl 'https://cloud.iexapis.com/stable/stock/aapl/quote?token=YOUR_TOKEN'
 
-"""
 

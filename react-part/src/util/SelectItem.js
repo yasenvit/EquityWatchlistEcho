@@ -15,7 +15,7 @@ const customStyles = {
     boxShadow: state.isFocused ? 0 : 0,
     cursor: 'text',
     borderRadius: 0,
-    borderBottom: 'solid 1px',
+    // borderBottom: 'solid 1px',
   }),
 
   option: (styles, { isFocused }) => {
