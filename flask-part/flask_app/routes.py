@@ -161,3 +161,18 @@ def getPrevPrice(symbol):
     prevPrice = util.get_previous_price(symbol)
     return jsonify({"prevPrice":prevPrice})
 
+@app.route('/api/db/stats/<symbol>')
+def get_db_stats(symbol):
+    result = utilDB.get_db_one("stats",symbol)
+    if not result:
+        return jsonify(BAD_REQUEST), 400
+    return jsonify(result)
+
+@app.route('/api/db/<value>/greaterthan/<amount>')
+def get_db_many(value,amount):
+    clause = "WHERE {}>={}".format(value, amount)
+    # print("\n\n\n\n",clause,"\n\n\n\n")
+    result = utilDB.get_db_many("stats",clause)
+    if not result:
+        return jsonify(BAD_REQUEST), 400
+    return result

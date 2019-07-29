@@ -124,6 +124,12 @@ button:focus {
   font-weight: 650;
 }
 
+.filler {
+  flex:1;
+  border-bottom: 3px solid #dbd7d7;
+  display: flex;
+}
+
 .entire {
   width: 100%;
   overflow-y: auto;
@@ -198,7 +204,7 @@ button:focus {
   flex: initial;
   width: 110px;
   color: rgb(58, 85, 143);
-  height: 8vh;
+  height: 5vh;
   padding: 5px;
   border-bottom: 3px solid #dbd7d7;
   opacity: 0.9
@@ -230,7 +236,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 65vh;
+  /* height: 65vh; */
 }
 
 .navheader {
@@ -242,10 +248,13 @@ button:focus {
   height: 8vh;    
 }
 
-.filler {
-  flex:1;
-  border-bottom: 3px solid #dbd7d7;
+.navheader-screener {
+  box-sizing: border-box;
   display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+  height: 5vh;    
 }
 
 .navheader-block-select {
@@ -325,6 +334,14 @@ button:focus {
   align-items: center;
   justify-content: center;
   height: 8vh;
+}
+
+.subtag-screener {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 5vh;
 }
 
 .space-btw-navs {

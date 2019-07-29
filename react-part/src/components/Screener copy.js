@@ -13,9 +13,9 @@ const linkStyleActive = {
     alignItems: 'center',
     justifyContent: 'center',
     textDecoration: 'none',
-    width: '70px',
+    width: '110px',
     color: 'rgb(58, 85, 143)',
-    height: '8vh',
+    height: '5vh',
     padding: '5px',
     backgroundColor: 'rgb(160, 236, 250)',
     borderBottom: '3px solid rgb(58, 85, 143)'
@@ -32,13 +32,13 @@ export default class Screener extends Component {
 
             // <Route exact path="/dashboard/screener" render={(props)=><Redirect to="/dashboard/screener/custom"/>}/>,
             <Route exact path="/dashboard/screener/custom" render={(props)=>
-                <EquityScreen {...props} />}/>,
+                <EquityScreen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
             <Route exact path="/dashboard/screener/mostactive" render={(props)=>
-                <Mostactive {...props} />}/>,
+                <Mostactive setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
             <Route exact path="/dashboard/screener/gainers" render={(props)=>
-                <Gainers {...props} />}/>,
+                <Gainers setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
             <Route exact path="/dashboard/screener/losers" render={(props)=>
-                <Losers {...props} />}/>,
+                <Losers setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
            
         ]
            
@@ -50,12 +50,12 @@ export default class Screener extends Component {
     
         return (
             <Fragment>
-                <div className="navheader">
+                <div className="navheader-screener">
 
                     <div className="filler">
                     </div>
                     
-                    <div className="subtag">
+                    <div className="subtag.screener">
                         <NavLink
                             exact to={linkToMostactive}
                             className="linkstyle-screener"
@@ -63,7 +63,7 @@ export default class Screener extends Component {
                             >Most Active
                         </NavLink>
                     </div>
-                    <div className="subtag">
+                    <div className="subtag-screener">
                         <NavLink
                             exact to={linkToGainers}
                             className="linkstyle-screener"
@@ -71,7 +71,7 @@ export default class Screener extends Component {
                             >Gainers
                         </NavLink>
                     </div>
-                    <div className="subtag">
+                    <div className="subtag-screener">
                         <NavLink
                             exact to={linkToLosers}
                             className="linkstyle-screener"
@@ -79,7 +79,7 @@ export default class Screener extends Component {
                             >Losers
                         </NavLink>
                     </div>
-                    <div className="subtag">
+                    <div className="subtag-screener">
                         <NavLink
                             exact to={linkToCustomScreen}
                             className="linkstyle-screener"
@@ -91,12 +91,9 @@ export default class Screener extends Component {
                     
                     <div className="filler">
                     </div>
-                    <div className="navheader-block-right">
-                    </div>
+                    
                 </div>
-                <div className="lookup-field" style={{backgroundColor:"green", color:"blue"}}>
-
-                    HELLO THERE!
+                <div className="lookup-field" style={{color:"blue"}}>
                     {secondRouteList}
                 </div>
             </Fragment>

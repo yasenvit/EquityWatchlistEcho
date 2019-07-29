@@ -43,6 +43,8 @@ export default class Watchlist extends Component {
       promise.then(blob => blob.json()).then(json => {
       if(json.error.length>0) {
         alert(json.error)
+      } else {
+        alert(`Ticker '${symbol}' has been added to watchlist`)
       }
       this.setState({activeTickers: json.symbols})
       this.getQuotes(this.state.activeTickers)
@@ -85,8 +87,6 @@ export default class Watchlist extends Component {
     }
         return (
             <Fragment>
-                <div className="navheader">
-                </div>
                 <div className="watchlist-field">
                     {output}
                 </div>

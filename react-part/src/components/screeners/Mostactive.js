@@ -39,27 +39,24 @@ export default class Mostactive extends Component {
     this.getListTen()
 }
   
-render() {
-  let output = (<Fragment></Fragment>)
-  if(this.state.listTen) {
-    output=(
-      <ListSheet
-        listTen={this.state.listTen}
-        addSymbol={this.addSymbol}
-        setChartsTicker={this.props.setChartsTicker}
-      />
-    )
-  }
-      return (
-          <Fragment>
-              <div className="navheader">
-                hello mostactive
-              </div>
-              <div className="watchlist-field">
-                  {output}
-              </div>
-          </Fragment>
+  render() {
+    let output = (<Fragment></Fragment>)
+    if(this.state.listTen) {
+      output=(
+        <ListSheet
+          listTen={this.state.listTen}
+          addSymbol={this.addSymbol}
+          setChartsTicker={this.props.setChartsTicker}
+        />
       )
+    }
+    return (
+      <Fragment>
+        <div className="watchlist-field">
+          {output}
+        </div>
+      </Fragment>
+    )
   }
 }
   

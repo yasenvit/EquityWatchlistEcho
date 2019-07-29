@@ -158,11 +158,11 @@ const useStyles = makeStyles(theme => ({
 export default function EnhancedTable(props) {
   const { listTen, addSymbol, setChartsTicker } = props
   const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
+  const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('marketCap');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  // const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   function handleRequestSort(event, property) {
@@ -211,9 +211,9 @@ export default function EnhancedTable(props) {
     setPage(0);
   }
 
-  function handleChangeDense(event) {
-    setDense(event.target.checked);
-  }
+  // function handleChangeDense(event) {
+  //   setDense(event.target.checked);
+  // }
 
   const isSelected = symbol => selected.indexOf(symbol) !== -1;
 
@@ -226,7 +226,8 @@ console.log(selected)
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={'small'}
+            // size={dense ? 'medium' : 'small'}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -258,7 +259,7 @@ console.log(selected)
                       <TableCell padding="">
                         <button onClick={(e)=>{addSymbol(row.symbol)}} style={{marginRight:"10px", width:"80px"}}>
                           
-                          + add {/*here is end*/}
+                          + add
                           
                         </button>
                       </TableCell>

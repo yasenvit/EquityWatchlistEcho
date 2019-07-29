@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,30 +8,21 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import {Route, Link} from 'react-router-dom';
-import SelectItem from '../../util/SelectItem'
+
 
 function createData(symbol,latestPrice,marketCap,avgTotalVolume,peRatio,week52Low,week52High,
   change,changePercent,ytdChange,open,close,low,high) {
            return { symbol,latestPrice,marketCap,avgTotalVolume,peRatio,week52Low,week52High,
-            change,changePercent,ytdChange,open,close,low,high};
+            change,changePercent,ytdChange,open,close,low,high };
   }
 
 const rows = (data) => {
   return data.map((obj, index) => (
     createData(
-    obj.symbol, obj.latestPrice, obj.marketCap, obj.avgTotalVolume, obj.peRatio, obj.week52Low, obj.week52High,
-    obj.change, obj.changePercent, obj.ytdChange, obj.open, obj.close, obj.low, obj.high, index
+    obj.symbol, obj.latestPrice, obj.marketCap, obj.avgTotalVolume, obj.peRatio,obj.week52Low,
+    obj.week52High, obj.change, obj.changePercent, obj.ytdChange,obj.open, obj.close, obj.low,obj.high, index
     )
   ))
   }
@@ -89,13 +79,8 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'Select ticker' }}
-          />
+        <TableCell>
+          add to watchlist
         </TableCell>
         {headRows.map(row => (
           <TableCell
@@ -117,10 +102,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-/**********************************************************************************************************/
-
-
-
 
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
@@ -157,80 +138,6 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
-
-const onClickChartHandler=(symbol) => {
-  
-  return console.log("hello chart", symbol)
-}
-
-/*************************************************************************************************/
-const EnhancedTableToolbar = props => {
-  const classes = useToolbarStyles();
-  const { numSelected,
-          selected,
-          delSymbol,
-          addSymbol,
-          setSelected,
-          activeQuotes,
-          /*stableSort,
-          rows,
-          order,
-          orderBy,
-          EnhancedTable*/
-        } = props;
-
-// console.log("SELECTED============",selected,)
-// console.log("DELETE FUNCTION============",delSymbol,)
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      <div className={classes.title}>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            <div style={{width:"140px"}}>
-              <SelectItem addSymbol={addSymbol}/>
-            </div>
-          </Typography>
-        )}
-      </div>
-      <div className={classes.spacer} />
-      <div className={classes.actions}>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete"  >
-              <DeleteIcon onClick={(e)=>(
-                delSymbol(selected),
-                setSelected([]) 
-                )} 
-              />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
-    </Toolbar>
-  );
-};
-/******************************************************************************************************/
-
-
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -248,17 +155,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
-
-/****************************************************************************************************/
 export default function EnhancedTable(props) {
-  const { activeQuotes, addSymbol, delSymbol, setChartsTicker } = props
+  const { listTen, addSymbol, setChartsTicker } = props
   const classes = useStyles();
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('marketCap');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(true);
+  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   function handleRequestSort(event, property) {
@@ -270,7 +174,7 @@ export default function EnhancedTable(props) {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      const newSelecteds = rows(activeQuotes).map(n => n.symbol);
+      const newSelecteds = rows(listTen).map(n => n.symbol);
       setSelected(newSelecteds);
       return;
     }
@@ -313,29 +217,11 @@ export default function EnhancedTable(props) {
 
   const isSelected = symbol => selected.indexOf(symbol) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows(activeQuotes).length - page * rowsPerPage);
-
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows(listTen).length - page * rowsPerPage);
+console.log(selected)
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-
-
-        <EnhancedTableToolbar 
-          numSelected={selected.length}
-          delSymbol={delSymbol}
-          addSymbol={addSymbol}
-          /******************/
-          selected={selected}
-          setSelected={setSelected}
-          stableSort={stableSort}
-          activeQuotes={activeQuotes}
-          rows={rows}
-          order={order}
-          orderBy={orderBy}
-          /*******************/
-        />
-
-
         <div className={classes.tableWrapper}>
           <Table
             className={classes.table}
@@ -346,18 +232,17 @@ export default function EnhancedTable(props) {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows(activeQuotes).length}
+              rowCount={rows(listTen).length}
             />
             
             <TableBody>
-              {stableSort(rows(activeQuotes), getSorting(order, orderBy))
+              {stableSort(rows(listTen), getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.symbol);
                   const labelId = `enhanced-table-checkbox-${index}`;
-                  
                   return (
                     <TableRow
                       hover
@@ -368,12 +253,14 @@ export default function EnhancedTable(props) {
                       key={row.symbol}
                       selected={isItemSelected}
                       setChartsTicker={setChartsTicker}
+                      addSymbol={addSymbol}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
+                      <TableCell padding="">
+                        <button onClick={(e)=>{addSymbol(row.symbol)}} style={{marginRight:"10px", width:"80px"}}>
+                          
+                          + add {/*here is end*/}
+                          
+                        </button>
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         <Link 
@@ -411,7 +298,7 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows(activeQuotes).length}
+          count={rows(listTen).length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -424,10 +311,6 @@ export default function EnhancedTable(props) {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </div>
   );
 }
