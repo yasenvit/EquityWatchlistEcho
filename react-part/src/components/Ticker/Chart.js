@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import SelectItem from '../../util/SelectItem'
 import '../../styles/style.css';
 import AreaChart from './AreaChart'
 

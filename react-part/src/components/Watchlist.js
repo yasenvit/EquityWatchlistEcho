@@ -38,6 +38,7 @@ export default class Watchlist extends Component {
     }}
 
     addSymbol=(symbol) =>{
+      if(symbol){
       const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/add/${symbol}`
       const promise = apiCall(endpoint,'get')
       promise.then(blob => blob.json()).then(json => {
@@ -49,9 +50,10 @@ export default class Watchlist extends Component {
       this.setState({activeTickers: json.symbols})
       this.getQuotes(this.state.activeTickers)
        })
-    }
+    }}
 
     delSymbol=(symbols) =>{
+      if(symbols){
       const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/delete/${symbols}`
       const promise = apiCall(endpoint,'get')
       promise.then(blob => blob.json()).then(json => {
@@ -62,7 +64,7 @@ export default class Watchlist extends Component {
         this.setState({activeQuotes: []})
       }
        })
-    }
+    }}
  
     componentDidUpdate(prevState) {
         if(this.state.activeTickers){

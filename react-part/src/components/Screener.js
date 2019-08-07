@@ -9,7 +9,7 @@ const linkStyleActive = {
     alignItems: 'center',
     justifyContent: 'center',
     textDecoration: 'none',
-    width: '110px',
+    width: '140px',
     color: 'rgb(58, 85, 143)',
     height: '5vh',
     padding: '5px',
@@ -25,10 +25,12 @@ export default class Screener extends Component {
     render() {
         let secondRouteList
         secondRouteList = [
-            <Route exact path="/dashboard/screener/custom" render={(props)=>
-                <EquityScreen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
+            <Route exact path="/dashboard/screener"  render={(props)=> <Redirect to="/dashboard/screener/mostactive"/>}/>,
             <Route exact path="/dashboard/screener/:criteria?" render={(props)=>
                 <ListTen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
+
+            <Route exact path="/dashboard/screener/custom" render={(props)=>
+                <EquityScreen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
         ]
            
         let linkToMostactive = `/dashboard/screener/mostactive`
@@ -41,12 +43,12 @@ export default class Screener extends Component {
                 <div className="navheader-screener">
                     <div className="filler">
                     </div>
-                    <div className="subtag.screener">
+                    <div className="subtag-screener">
                         <NavLink
                             exact to={linkToMostactive}
                             className="linkstyle-screener"
                             activeStyle={linkStyleActive}
-                            >Most Active
+                            >TOP-10 Most Active
                         </NavLink>
                     </div>
                     <div className="subtag-screener">
@@ -54,7 +56,7 @@ export default class Screener extends Component {
                             exact to={linkToGainers}
                             className="linkstyle-screener"
                             activeStyle={linkStyleActive}
-                            >Gainers
+                            >TOP-10 Gainers
                         </NavLink>
                     </div>
                     <div className="subtag-screener">
@@ -62,7 +64,7 @@ export default class Screener extends Component {
                             exact to={linkToLosers}
                             className="linkstyle-screener"
                             activeStyle={linkStyleActive}
-                            >Losers
+                            >TOP-10 Losers
                         </NavLink>
                     </div>
                     <div className="subtag-screener">

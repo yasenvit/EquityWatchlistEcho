@@ -20,7 +20,7 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import {Route, Link} from 'react-router-dom';
-import SelectItem from '../../util/SelectItem'
+import SelectItemQuoteSheet from '../../util/SelectItemQuoteSheet'
 
 function createData(symbol,latestPrice,marketCap,avgTotalVolume,peRatio,week52Low,week52High,
   change,changePercent,ytdChange,open,close,low,high) {
@@ -195,7 +195,7 @@ const EnhancedTableToolbar = props => {
         ) : (
           <Typography variant="h6" id="tableTitle">
             <div style={{width:"140px"}}>
-              <SelectItem addSymbol={addSymbol}/>
+              <SelectItemQuoteSheet addSymbol={addSymbol}/>
             </div>
           </Typography>
         )}

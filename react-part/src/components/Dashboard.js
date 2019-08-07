@@ -40,6 +40,7 @@ class Dashboard extends Component {
   let firstRouteList = []
 
   firstRouteList = [
+    <Route exact path="/dashboard"  render={(props)=> <Redirect to="/dashboard/watchlist"/>}/>,      
     <Route exact path="/dashboard/watchlist"  render={(props)=>
       <Watchlist setChartsTicker={this.setChartsTicker} lookupTicker={this.state.lookupTicker} {...props} />}/>,
     <Route path="/dashboard/screener"  render={(props)=>
@@ -77,7 +78,7 @@ class Dashboard extends Component {
           </div>
         </div>
         <div className="header-item header-right">
-          <div className='logo'>{appLogout}</div>
+          {appLogout}
         </div>
       </div>
       <div className="page">

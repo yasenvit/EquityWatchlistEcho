@@ -5,6 +5,11 @@
   font-size: 0.9rem
 }
 
+
+
+
+
+
 button {
   background: #fff;
   color: #222;
@@ -24,7 +29,31 @@ button.active {
 button:focus {
   outline: 0;
 }
+/* ************************ */
+.example_c {
+  /* color: #494949 !important; */
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 0.55rem;
+  background-color: rgb(50, 17, 63);
+  color: white;
+  /* background: #ffffff; */
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #494949 !important;
+  display: inline-block;
+  transition: all 0.4s ease 0s;
+  }
 
+.example_c:hover {
+  color: #ffffff !important;
+  background-color: rgb(113, 67, 131);
+  border-color: rgb(112, 35, 143) !important;
+  transition: all 0.4s ease 0s;
+}
+
+/* ******************** */
 #chart {
   max-width: 950px;
   margin: 35px auto;
@@ -145,7 +174,8 @@ button:focus {
 
 .header-container-out {
   height: 7vh;
-  color:black;
+  font-size: 1.5rem;
+  color:whitesmoke;
   background-color: rgb(167, 151, 132);
   display: flex;
   justify-content: space-between;
@@ -171,6 +201,7 @@ button:focus {
 
 .header-item {
   display: flex;
+  flex-direction: row;
   flex:1;
   justify-content: space-around;
   align-items: center; /* could be stretch*/
@@ -182,6 +213,13 @@ button:focus {
  flex:2.5
 }
 
+.header-right {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .linkstyle {
   display: flex;
   align-items: center;
@@ -202,7 +240,7 @@ button:focus {
   justify-content: center;
   text-decoration: none;
   flex: initial;
-  width: 110px;
+  width: 140px;
   color: rgb(58, 85, 143);
   height: 5vh;
   padding: 5px;
@@ -215,8 +253,12 @@ button:focus {
 }
  
 .logo {
-  margin: 1rem;
-  margin-left: auto
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  
 }
   
 .loginBox,

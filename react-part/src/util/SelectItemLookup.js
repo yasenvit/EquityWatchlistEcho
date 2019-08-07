@@ -46,7 +46,7 @@ const customStyles = {
     color: 'rgba(255, 80, 86)',
   }),
 }
-export default class SelectItem extends Component {
+export default class SelectItemLookup extends Component {
 
   state = {
     selectedOption: null,
@@ -58,20 +58,20 @@ export default class SelectItem extends Component {
     const promise = apiCall(endpoint,'get')
     promise.then(blob => blob.json()).then(json => {
       this.setState({
-        options: json.selectSymbols
+        options: json
       })
     })
   }
 
     handleChange = (selectedOption, props) => {
-      // console.log(this.props.pickHandle)
+      console.log(this.props.pickHandle)
       if(this.props.pickHandle) {
         this.setState({ selectedOption });
-        // console.log(`Option selected:`, selectedOption);
+        console.log(`Option selected:`, selectedOption);
         this.props.pickHandle(selectedOption.value)
       } else {
         this.setState({ selectedOption });
-        // console.log(`Option selected:`, selectedOption);
+        console.log(`Option selected:`, selectedOption);
         this.props.addSymbol(selectedOption.value)
       }
     };
@@ -106,7 +106,7 @@ export default class SelectItem extends Component {
         <Select
           value={selectedOption}
           onChange={this.handleChange}
-          placeholder= "Quote lookup"
+          placeholder= "find ticker"
           options={options}
           styles={customStyles}
           openMenuOnClick={false}

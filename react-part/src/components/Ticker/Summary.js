@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import SelectItem from '../../util/SelectItem'
 import '../../styles/style.css';
 import AreaChartSmall from './AreaChartSmall'
 
@@ -31,8 +30,9 @@ export default class Summary extends Component {
     render() {
         const roundTo = require('round-to')
         let week52Range = this.state.tickerQuote?<div>{this.state.tickerQuote.week52Low} - {this.state.tickerQuote.week52Low}</div>:""
-        let dayRange = this.state.tickerQuote?<div>{this.state.tickerQuote.low} - {this.state.tickerQuote.high}</div>:""
-        
+        let dayRange = this.state.tickerQuote?<div>{this.state.tickerQuote.low?roundTo(this.state.tickerQuote.low,2):""} - {this.state.tickerQuote.high?roundTo(this.state.tickerQuote.high,2):""}</div>:""
+        let openClose = this.state.tickerQuote?<div>{this.state.tickerQuote.open} - {this.state.tickerQuote.close}</div>:""
+
         return (
             <Fragment>
                 <div className="chart-field">
@@ -46,9 +46,10 @@ export default class Summary extends Component {
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
-                                <div className="chart-info-column-row-key">Open</div>
+                                <div className="chart-info-column-row-key">Open - Close</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.open:""
+                                    // this.state.tickerQuote?this.state.tickerQuote.open:""
+                                    openClose
                                     }
                                 </div>
                             </div>
@@ -126,7 +127,6 @@ export default class Summary extends Component {
                         <AreaChartSmall tickerToLook={this.state.tickerToLook}/>
                     </div>
                     </div>
-                        
             </Fragment>
         )
     }

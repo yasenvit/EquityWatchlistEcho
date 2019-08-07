@@ -5,7 +5,7 @@ import Summary from './Ticker/Summary'
 import Statistic from './Ticker/Statistic'
 import '../styles/style.css';
 import apiCall from '../util/apiCall';
-import SelectItem from '../util/SelectItem'
+import SelectItemLookup from '../util/SelectItemLookup'
 
 const linkStyleActive = {
     display: 'flex',
@@ -117,7 +117,7 @@ export default class Lookup extends Component {
                 <div className="navheader">
 
                     <div className="navheader-block-select">
-                        <SelectItem pickHandle = {this.pickHandle}/>
+                        <SelectItemLookup pickHandle = {this.pickHandle}/>
                     </div>
                         <div className="filler">
                         </div>
