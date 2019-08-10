@@ -45,7 +45,7 @@ export default class Watchlist extends Component {
       if(json.error.length>0) {
         alert(json.error)
       } else {
-        alert(`Ticker '${symbol}' has been added to watchlist`)
+        alert(`You have added '${symbol}' to watchlist`)
       }
       this.setState({activeTickers: json.symbols})
       this.getQuotes(this.state.activeTickers)

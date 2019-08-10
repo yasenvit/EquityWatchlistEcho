@@ -86,7 +86,7 @@ def get_online_data(symbol, fromdate, todate, token=TOKEN):
             fromdate_obj = fromdate_obj + timedelta(days=1)
         else:
             raise requests.ConnectionError('http status: ' + format(response.status_code))
-    print("online data ----->>>>>", result[0], result[-1])
+    print("online data ----->>>>>", result[0-5])
     return onlinedata
 
 def isfloat(value):
@@ -127,26 +127,22 @@ def get_batchonline_data(symbol, days, token=TOKEN):
         result = response.json()
     else:
         raise requests.ConnectionError('http status: ' + format(response.status_code))
-    print("batchonline data ----->>>>>", result[0],result[-1])
+   
     return result
 
+def get_eps(symbol, token=TOKEN):
+    response = requests.get(ENDPOINT2 + "/stock/{}/earnings?".format(symbol) + token)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise requests.ConnectionError('http status: ' + format(response.status_code))
 
-# def get_eps(symbol, token=TOKEN):
-#     response = requests.get(ENDPOINT2 + "/stock/{}/earnings?".format(symbol) + token)
-#     if response.status_code == 200:
-#         return response.json()
-#     else:
-#         raise requests.ConnectionError('http status: ' + format(response.status_code))
-
-"{'symbol':'AAPL','earnings':[{'actualEPS':2.46,'consensusEPS':2.36,'announceTime':'AMC','numberOfEstimates':34,'EPSSurpriseDollar':0.1,'EPSReportDate':'2019-04-30','fiscalPeriod':'Q1 2019','fiscalEndDate':'2019-03-31','yearAgo':2.73,'yearAgoChangePercent':-0.0989}]}"
-
-
-# def get_stats(symbol, token=TOKEN):
-#     response = requests.get(ENDPOINT2 + "/stock/{}/stats?".format(symbol) + token)
-#     if response.status_code == 200:
-#         return response.json()
-#     else:
-#         raise requests.ConnectionError('http status: ' + format(response.status_code))
+def get_stats(symbol, token=TOKEN):
+    response = requests.get(ENDPOINT2 + "/stock/{}/stats?".format(symbol) + token)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise requests.ConnectionError('http status: ' + format(response.status_code))
 
 def get_online_data(symbol, fromdate, todate, token=TOKEN):
     fromdate_obj = datetime.strptime(fromdate,'%Y%m%d')
@@ -154,19 +150,17 @@ def get_online_data(symbol, fromdate, todate, token=TOKEN):
     onlinedata = []
     while fromdate_obj <= todate_obj:
         response = requests.get(ENDPOINT2 + "/stock/{}/chart/date/{}?chartByDay=true&".format(symbol, datetime.strftime(fromdate_obj,'%Y%m%d')) + token)
+        print("\n\nUTIL get_online_data response =>",response.json(),"\n\n")
         if response.status_code == 200:
             if fromdate_obj.weekday() == 5 or fromdate_obj.weekday() == 6:
                 pass
             else:
-                onlinedata.append(response.json())
+                if response.json():
+                    onlinedata.append(response.json()[0])
             fromdate_obj = fromdate_obj + timedelta(days=1)
         else:
-            raise requests.ConnectionError('http status: ' + format(response.status_code))
+            pass
     return onlinedata
-
-
-
-
 
 
     

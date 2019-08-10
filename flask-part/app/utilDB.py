@@ -26,17 +26,16 @@ CREATE TABLE lookuptickers (
 """
 
 def get_symbolID(symbol):
-    print("\n\n\getSymbol-symbol input\n", symbol)
-    if not symbol:
-        return None
-    with con:
-        cur = con.cursor()
-        cur.execute("SELECT ID FROM symbols WHERE symbol=%s",symbol)
-        tupleID = cur.fetchone()
-        print("\n\ntupleID", tupleID,"\n\n\n")
-        if tupleID and len(tupleID) > 0:
-            return tupleID[0]
-        return None
+        print("getSymbol=>", symbol)
+        with con:
+                cur = con.cursor()
+                print("SELECT ID FROM symbols WHERE symbol='{}'".format(symbol))
+                cur.execute("SELECT ID FROM symbols WHERE symbol='{}'".format(symbol))
+                tupleID = cur.fetchone()
+                print("\ntupleID->", tupleID,"\n")
+                if tupleID:
+                        return tupleID[0]
+                return []
         
 def getStocksAll():
     with con:
@@ -100,7 +99,7 @@ def SQLrecord(columns, values):
         cur = con.cursor()
         inpcolumns = ", ".join(columns)
         inpvalues = tuple(values)
-        raw_sql = "INSERT INTO probe ({0}) VALUES ".format(inpcolumns)
+        raw_sql = "INSERT INTO charts ({0}) VALUES ".format(inpcolumns)
         sql = raw_sql + "{0}".format(inpvalues)
         cur.execute(sql)
 
@@ -118,12 +117,11 @@ def data_record(symbol_id,data):
                                         values.append(0)
                                         columns.append(colname)
                                 elif colname == "change":
-                                        values.append(obj[0][colname])
+                                        values.append(obj[colname])
                                         columns.append("`change`")
                                 else:
-                                        values.append(obj[0][colname])
+                                        values.append(obj[colname])
                                         columns.append(colname)
-                                        print('\n\n\nOBJECT RECORD',obj[0][colname] , "\n\n\n")
                         values.append(symbol_id)
                         columns.append("ID")
                         SQLrecord(columns, values)
@@ -134,7 +132,7 @@ def get_db_data(symbol_id,fromdate,todate):
     todate_obj = datetime.datetime.strptime(todate,'%Y%m%d')
     with con:
         cur = con.cursor()
-        SQL="""SELECT  date,close FROM probe WHERE ID={} 
+        SQL="""SELECT  date,close FROM charts WHERE ID={} 
                 AND date>='{}' AND date<='{}';""".format(symbol_id,fromdate,todate)
         cur.execute(SQL)
         dbdata = []
@@ -150,32 +148,12 @@ def get_db_data(symbol_id,fromdate,todate):
         return dbdata
 
 def find_lastdate(symbol_id):
-    print("\n\n\nsymbol:find lastdate\n", symbol_id,"\n\n\n")
+    print("\n\nfind lastdate for->\n", symbol_id,"\n\n")
     with con:
         cur = con.cursor()
-        SQL="""SELECT date FROM probe WHERE ID={} AND date =(SELECT max(date) FROM probe);""".format(symbol_id)
+        SQL="""SELECT max(date) FROM charts WHERE ID={};""".format(symbol_id)
         cur.execute(SQL)
         row_results = cur.fetchone()
         if not row_results:
                 return None
-        print("\n\LR:\n",row_results,"\n")
         return row_results[0]
-
-
-
-
-"""
-MAX DATE QUERY: 
-SELECT * FROM charts WHERE ID=14 AND Date IN (SELECT max(Date) FROM charts);- 9sec
-SELECT date FROM charts WHERE ID=14 AND date = (SELECT MAX(date) FROM charts) - 9sec
-
-SELECT * FROM charts WHERE (ID, Date) IN (SELECT ID, Max(Date) FROM charts GROUP BY ID)
-from min:
-----------
-SELECT TOP ID, close,label, date
-FROM charts
-WHERE id = 14
-ORDER BY Date
------------
-2014-06-09
-"""

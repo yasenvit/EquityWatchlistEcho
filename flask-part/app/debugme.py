@@ -85,3 +85,12 @@ print("tt", startPoint.date())
 fullonlinedata = [[{'date': '2019-08-05', 'uClose': 193.34, 'uOpen': 197.99, 'uHigh': 198.65, 'uLow': 192.58, 'uVolume': 52392969, 'close': 193.34, 'open': 197.99, 'high': 198.65, 'low': 192.58, 'volume': 52392969, 'change': 0, 'changePercent': 0, 'label': 'Aug 5', 'changeOverTime': 0}], [{'date': '2019-08-06', 'uClose': 197, 'uOpen': 196.31, 'uHigh': 198.07, 'uLow': 194.04, 'uVolume': 35824787, 'close': 197, 'open': 196.31, 'high': 198.07, 'low': 194.04, 'volume': 35824787, 'change': 3.66, 'changePercent': 1.893, 'label': 'Aug 6', 'changeOverTime': 0.01893}]]
 for item in fullonlinedata:
     print(item[0]["date"])
+
+endPoint = datetime.strptime("20190820",'%Y%m%d').date()
+print(endPoint)
+yesterday = (date.today() - timedelta(days=1))
+new= yesterday.date()
+if endPoint < new:
+    print("less")
+else:
+    print("bigger")

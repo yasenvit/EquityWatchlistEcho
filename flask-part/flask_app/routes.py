@@ -71,8 +71,10 @@ def get_listTen(criteria):
 def get_stats(symbol):
     eps = util.get_eps(symbol)
     if not eps:
-        return jsonify(APP_ERROR), 500
+        return []
     stats = util.get_stats(symbol)
+    if not stats:
+        return []
     return jsonify({"stats": stats, "eps": eps["earnings"][0]})
 
 
@@ -126,7 +128,6 @@ def getStocks_All():
     if not result:
         return jsonify(APP_ERROR), 500
     mapresult = map(lambda x:{"value":str(x[0]),"label":str(x[0])},result)
-    # print("\n\nmapresult\n\n",list(mapresult),"\n\n\n")
     return jsonify(list(mapresult))
 
 ##############################################
@@ -163,24 +164,10 @@ def record(api_key,symbol):
     return jsonify({"symbols":symbolslist, "error":""})
 
 
-
-@app.route('/api/chart/range/<symbol>/<fromdate>/<todate>')
-def custom_chart_data(symbol, fromdate, todate):
-    if not symbol:
-        return jsonify(BAD_REQUEST), 400                        #-?
-    symbol_id = utilDB.get_symbolID(symbol)
-    if not symbol_id:
-        return jsonify(BAD_REQUEST), 400
-    result = utilDB.get_db_data(symbol_id,fromdate,todate)
-    if not result:
-        return jsonify({"error": "no historical data for this ticker"}), 400
-    return jsonify({"data":result, "error":""})
-
-
 @app.route('/api/chart/<symbol>/<days>')
 def chart_data(symbol, days):
-    if not symbol:
-        return jsonify(BAD_REQUEST), 400                        #-?
+    # if not symbol:
+    #     return jsonify(BAD_REQUEST), 400                        #-?
     symbol_id = utilDB.get_symbolID(symbol)
     if not symbol_id:
         return jsonify(APP_ERROR), 500
@@ -204,26 +191,24 @@ def chart_data(symbol, days):
         
         print("Reg startPoint->", startPoint)
         print("Reg endpoint->",endPoint)
-    # ----checked this block---------
+    # ----checked this block------------------------------------------------------SAME ROUTE'S PART------------------
     if endPoint <= LR:
         dbdata = utilDB.get_db_data(symbol_id,datetime.strftime(startPoint,'%Y%m%d'),datetime.strftime(endPoint,'%Y%m%d'))
-        print("\n\nCONDITION: endPoint <= LR\n","dataToDisplay Start",dbdata[0], "\ndataToDisplay End",dbdata[-1],"\n\n")
+        print("\n\nCONDITION: endPoint <= LR\n","dataToDisplay Start",dbdata[0], "\ndataToDisplay End",dbdata[-1],"\nNO RECORDS\n")
         return jsonify({"data": dbdata,"error": ""})
     #-----------------------------------
     # ----checked this block---------
     elif  endPoint > LR and startPoint <= LR:
         diff = (endPoint - LR).days
         if diff < 20:
-            print("diff<20 ->",diff)
             dbdata = utilDB.get_db_data(symbol_id,datetime.strftime(startPoint,'%Y%m%d'),datetime.strftime(LR,'%Y%m%d'))
             fullonlinedata = util.get_online_data(symbol, datetime.strftime(nextafterLR,'%Y%m%d'), datetime.strftime(endPoint,'%Y%m%d'))
-            print("fullonlinedata----------", fullonlinedata)
             if not fullonlinedata:
                 onlinedata = []
             else:
                 onlinedata = []
                 for item in fullonlinedata:
-                    onlinedata.append([item[0]["date"], item[0]["close"]])
+                    onlinedata.append([item["date"], item["close"]])
                 dbdata.extend(onlinedata)
             utilDB.data_record(symbol_id, fullonlinedata) #recording
             print("\n\nCONDITION: endPoint > LR and startPoint <= LR, DIFF<20\n\n","dataToDisplay ",dbdata, "\ndataTorecord ",fullonlinedata,"\n\n")
@@ -231,7 +216,6 @@ def chart_data(symbol, days):
         else:
     #-------------------------------------------------------
     # ----checked this block--------------------------------
-            print("diff>20 ->",diff)
             alldata = util.get_batchonline_data(symbol, diff)
             onlinedata = []
             LRindex=0
@@ -275,8 +259,8 @@ def chart_data(symbol, days):
 
 @app.route('/api/chart/<symbol>/range/<fromdate>/<todate>')
 def range_chart_data(symbol, fromdate, todate):
-    if not symbol:
-        return jsonify(BAD_REQUEST), 400                        #-?
+    # if not symbol:
+    #     return jsonify(BAD_REQUEST), 400                        
     symbol_id = utilDB.get_symbolID(symbol)
     if not symbol_id:
         return jsonify(APP_ERROR), 500
@@ -289,39 +273,48 @@ def range_chart_data(symbol, fromdate, todate):
     nextafterLR = LR + timedelta(days=1)
     print("nextafterLR==>>", nextafterLR)
     
-    startPoint = datetime.strptime(fromdate,'%Y%m%d').date()
-    endPoint = datetime.strptime(todate,'%Y%m%d').date()
+    toStartPoint = datetime.strptime(fromdate,'%Y%m%d')
+    toEndPoint = datetime.strptime(todate,'%Y%m%d')
+    today = date.today()
+    print("toEndPoint--->",toEndPoint.date())
+    print("today==",today)
+    if toStartPoint.date() <= today:
+        startPoint = toStartPoint.date()
+    else:
+        return jsonify({"data":[], "error":BAD_REQUEST["error"]})
+    if toEndPoint.date() < today:
+        endPoint = toEndPoint.date()
+    else:
+        endPoint = today
+            
+    print("Regular startPoint->", startPoint)
+    print("Regular endpoint->",endPoint)
     
-        
-    print("Reg startPoint->", startPoint)
-    print("Reg endpoint->",endPoint)
-    
+    # ----checked this block----------------------------------------------SAME ROUTE'S PART------------------------------
     if endPoint <= LR:
         dbdata = utilDB.get_db_data(symbol_id,datetime.strftime(startPoint,'%Y%m%d'),datetime.strftime(endPoint,'%Y%m%d'))
-        print("\n\nCONDITION: endPoint <= LR\n","dataToDisplay Start",dbdata[0], "\ndataToDisplay End",dbdata[-1],"\n\n")
+        print("\n\nCONDITION: endPoint <= LR\n","dataToDisplay Start",dbdata[0], "\ndataToDisplay End",dbdata[-1],"\nNO RECORDS\n")
         return jsonify({"data": dbdata,"error": ""})
-    
-    # ----need to check this block----
+    #-----------------------------------
+    # ----checked this block---------
     elif  endPoint > LR and startPoint <= LR:
         diff = (endPoint - LR).days
         if diff < 20:
-            print("diff<20 ->",diff)
             dbdata = utilDB.get_db_data(symbol_id,datetime.strftime(startPoint,'%Y%m%d'),datetime.strftime(LR,'%Y%m%d'))
             fullonlinedata = util.get_online_data(symbol, datetime.strftime(nextafterLR,'%Y%m%d'), datetime.strftime(endPoint,'%Y%m%d'))
-            print("fullonlinedata----------", fullonlinedata)
             if not fullonlinedata:
                 onlinedata = []
             else:
                 onlinedata = []
                 for item in fullonlinedata:
-                    onlinedata.append([item[0]["date"], item[0]["close"]])
+                    onlinedata.append([item["date"], item["close"]]) #???
                 dbdata.extend(onlinedata)
             utilDB.data_record(symbol_id, fullonlinedata) #recording
             print("\n\nCONDITION: endPoint > LR and startPoint <= LR, DIFF<20\n\n","dataToDisplay ",dbdata, "\ndataTorecord ",fullonlinedata,"\n\n")
             return jsonify({"data":dbdata,"error": ""})
         else:
-            # *********************checked*********************************
-            print("diff>20 ->",diff)
+    #-------------------------------------------------------
+    # ----checked this block--------------------------------
             alldata = util.get_batchonline_data(symbol, diff)
             onlinedata = []
             LRindex=0
@@ -341,7 +334,7 @@ def range_chart_data(symbol, fromdate, todate):
             utilDB.data_record(symbol_id, alldata[LRindex+1:])        #recording
             print("\n\nCONDITION: endPoint > LR and startPoint <= LR, DIFF>20\n\n","strtDis", dataToDisplay[0], "\nendDisp", dataToDisplay[-1], "\nstrtRec", onlineslice[0], "\nendRec", onlineslice[-1],"\n\n")
             return jsonify({"data":dataToDisplay,"error": ""})
-            #*********************************************************
+    #----------------------------------------------------------------
     elif startPoint > LR:
         diff = (endPoint - LR).days
         alldata = util.get_batchonline_data(symbol, diff)
@@ -360,19 +353,6 @@ def range_chart_data(symbol, fromdate, todate):
         utilDB.data_record(symbol_id, dataToRecord)  #recording
         print("\n\n CONDITION: startPoint > LR\n\n","strtDis", dataToDisplay[0], "\nendDisp", dataToDisplay[-1], "\nstrtRec", dataToRecord[0], "\nendRec", dataToRecord[-1],"\n\n")
         return jsonify({"data":dataToDisplay,"error": ""})
-
-
-
-
-
-# ***********************************************
-# @app.route('/api/onlinechart/range/<symbol>/<fromdate>/<todate>')
-# def online_chart_data(symbol, fromdate, todate):
-#     result = util.get_online_data(symbol,fromdate,todate)
-#     if not result:
-#         return jsonify({"error": "no historical data for this ticker"}), 400
-#     return jsonify({"data":result, "error":""})
-
 
 @app.route('/api/db/chart/<symbol>/lastdate')
 def find_last(symbol):

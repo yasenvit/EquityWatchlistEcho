@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import '../styles/style.css';
 import {Route, NavLink, Redirect} from 'react-router-dom'
-import EquityScreen from './screeners/EquityScreen';
 import ListTen from './screeners/ListTen';
 
 const linkStyleActive = {
@@ -28,9 +27,6 @@ export default class Screener extends Component {
             <Route exact path="/dashboard/screener"  render={(props)=> <Redirect to="/dashboard/screener/mostactive"/>}/>,
             <Route exact path="/dashboard/screener/:criteria?" render={(props)=>
                 <ListTen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
-
-            <Route exact path="/dashboard/screener/custom" render={(props)=>
-                <EquityScreen setChartsTicker={this.props.setChartsTicker} {...props} />}/>,
         ]
            
         let linkToMostactive = `/dashboard/screener/mostactive`
@@ -65,14 +61,6 @@ export default class Screener extends Component {
                             className="linkstyle-screener"
                             activeStyle={linkStyleActive}
                             >TOP-10 Losers
-                        </NavLink>
-                    </div>
-                    <div className="subtag-screener">
-                        <NavLink
-                            exact to={linkToCustomScreen}
-                            className="linkstyle-screener"
-                            activeStyle={linkStyleActive}
-                            >Custom screener
                         </NavLink>
                     </div>
                     <div className="filler">

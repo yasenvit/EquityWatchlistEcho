@@ -8,6 +8,7 @@ export default class Chart extends Component {
    
         return (
             <div>
+                
                 <div>
                     <AreaChart tickerToLook={this.props.match.params.symbol}/>
                 </div>
