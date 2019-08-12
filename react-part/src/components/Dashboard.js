@@ -53,29 +53,9 @@ class Dashboard extends Component {
     <div className="entire">
       <div className='header-container-signed'>
         <div className="header-item header-left">
-          <div className="header-box">search symbol</div>
-          <div className="header-box" style={{color:"skyblue"}}></div>
-          <div className="header-box">save</div>
         </div>
         <div className='header-item header-center'>
-          <div className="index">
-            Index 1
-          </div>
-          <div className="index">
-            Index 2
-          </div>
-          <div className="index">
-            Index 3
-          </div>
-          <div className="index">
-            Index 4
-          </div>
-          <div className="index">
-            Index 5
-          </div>
-          <div className="index">
-            Index 6
-          </div>
+          Equity watchlist
         </div>
         <div className="header-item header-right">
           {appLogout}

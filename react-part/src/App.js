@@ -104,8 +104,8 @@ class App extends Component {
       output= (
         <div className="entire">
           <div className='header-container-out'>
-            <div className='header-item'>{this.state.time.toLocaleDateString()} {this.state.time.toLocaleTimeString()}</div>
-            <div className='header-item header-center'>Welcome to Proreplica</div>
+            <div className='header-item'>{this.state.time.toLocaleDateString()}</div>
+            <div className='header-item header-center'>Equity watchlist</div>
             <div className="header-item header-right">
               <div className='signup' style={{color:"white"}}>{appSignUp}</div>
               <div className='login'>{appLogin}</div>
@@ -115,7 +115,7 @@ class App extends Component {
             {routeList}
           </div>
           <div className="footer">
-            
+            Final project by Vitaliy Yasenivskyy
           </div>
         </div> 
       )

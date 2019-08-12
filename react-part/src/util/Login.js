@@ -19,7 +19,7 @@ class Login extends Component {
                             document.getElementById('password').value
                         )
                     }}
-                    >Log In</button>
+                    >sign in</button>
                 </div>
             </div>
         )

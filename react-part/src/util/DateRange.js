@@ -1,9 +1,8 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import isAfter from "date-fns/isAfter";
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/style.css'
-import { lastDayOfDecade } from "date-fns/esm";
+
 
 
 export default class DateRange extends React.Component {
@@ -26,7 +25,6 @@ export default class DateRange extends React.Component {
   handleChangeEnd = endDate => this.handleChange({ endDate });
 
   componentWillUnmount(){
-      console.log("===============>componentWILL UNMOUNT<===========")
       this.setState({
         startDate: null,
         endDate: null

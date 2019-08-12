@@ -167,9 +167,17 @@ button:focus {
   }
 
 .footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
   background-color: rgb(167, 151, 132);
+  padding-right: 30px;
+  font-weight: 600;
   height: 5vh;
-  width: 100%
+  width: 100%;
+  color:rgb(38, 101, 126);
+  font-style: italic;  
 }
 
 .header-container-out {
@@ -182,7 +190,7 @@ button:focus {
 }
   
 .header-container-signed {
-  height: 3vh;
+  height: 4vh;
   color:whitesmoke;
   display: flex;
   justify-content: space-around;
@@ -210,7 +218,10 @@ button:focus {
 }
   
 .header-center {
- flex:2.5
+ flex:2.5;
+ color:whitesmoke;
+ font-size: 1.1rem;
+ font-weight: 400;
 }
 
 .header-right {
@@ -269,7 +280,8 @@ button:focus {
   align-items: center;
   padding: 1rem;
   background-color: #c4c2c2;
-  opacity: 0.8
+  opacity: 0.8;
+  border-radius: 10px;
 }
 
 .lookup-field {
@@ -299,7 +311,7 @@ button:focus {
 
 .navheader-block-select {
   width: 100px;
-  border-bottom: 3px solid rgb(221, 179, 238);
+  border-bottom: 3px solid rgb(160, 236, 250);
 }
 
 .navheader-block-right {
@@ -439,57 +451,62 @@ button:focus {
   align-items: flex-end;
 }
 .statistic {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: stretch;
   width: 100%;
-  background-color: aquamarine;
-  padding: 1rem;
+  padding: 1.5rem;
   padding-top: 0px;
 }
 .stat-column {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   flex:1;
   padding: 1rem;
-  background-color: yellow;
-  border: 1px solid green
 }
 
 .stat-col-container {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background-color: burlywood;
   margin: 5px;
-  height: 250px;
-  padding: 0.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
+
 .stat-col-cont-element {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding: 0.5rem
+  padding: 0.2rem
 }
 
 .stat-col-cont-elem-key {
+  box-sizing: border-box;
   display: flex;
   flex:1;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 0.5rem;
-  background-color: green
+  padding: 0.2rem;
+  /* background-color: green */
+  border-bottom: 1px dotted grey;
 }
 
 .stat-col-cont-elem-value {
+  box-sizing: border-box;
   display: flex;
-  flex:1.2;
+  flex:1;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  padding: 0.5 rem;
-  background-color: yellowgreen;
+  padding: 0.2 rem;
+  /* background-color: yellowgreen; */
+  border-bottom: 1px dotted grey;
 
 }
 

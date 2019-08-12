@@ -215,7 +215,7 @@ const EnhancedTableToolbar = props => {
         ) : (
           <Tooltip title="Filter list">
             <IconButton aria-label="Filter list">
-              <FilterListIcon />
+              {/* <FilterListIcon /> */}
             </IconButton>
           </Tooltip>
         )}

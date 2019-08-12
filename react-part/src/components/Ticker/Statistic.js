@@ -187,18 +187,26 @@ export default class Statistic extends Component {
                         </div>
                         <div className="stat-col-cont-element">
                             <div className="stat-col-cont-elem-key">
-                                key
+                                Fiscal Period
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                value
+                                {fiscalPeriod}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
                             <div className="stat-col-cont-elem-key">
-                                key
+                                Year Ago
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                value
+                                {yearAgo}
+                            </div>
+                        </div>
+                        <div className="stat-col-cont-element">
+                            <div className="stat-col-cont-elem-key">
+                                Year Ago Change Percent
+                            </div>
+                            <div className="stat-col-cont-elem-value">
+                                {yearAgoChangePercent}
                             </div>
                         </div>
                     </div>                    
