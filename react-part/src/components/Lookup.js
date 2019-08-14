@@ -33,9 +33,19 @@ export default class Lookup extends Component {
         lookupTicker: null,
         tickerQuote: null,
         pickedTicker: null,
-        prevPrice:null
+        prevPrice:null,
+        activeTickers: [],
+        logo: null
     }
-    
+    getLogo (symbol) {
+        if(symbol) {
+        const endpoint = `/api/db/stock/${symbol}/logo`
+        const promise = apiCall(endpoint,'get')
+        promise.then(blob => blob.json()).then(json=>{
+            this.setState({logo: json.logo})
+        })
+      }}
+
     getQuote (symbol) {
         if(symbol) {
         const endpoint = `/api/stock/${symbol}/quote`
@@ -46,20 +56,41 @@ export default class Lookup extends Component {
             tickerQuote: json.quote,
             lookupTicker: json.quote.symbol
           })
+          this.getLogo(symbol)
         })
       }}
 
 
     pickHandle = (symbol) => {
         this.getQuote(symbol)
-    
+        this.getLogo(symbol)
     }
+
+    addSymbol=(symbol) =>{
+      if(symbol){
+      const endpoint = `/api/${window.sessionStorage.getItem("apikey")}/active/add/${symbol}`
+      const promise = apiCall(endpoint,'get')
+      promise.then(blob => blob.json()).then(json => {
+      if(json.error.length>0) {
+        alert(json.error)
+      } else {
+        alert(`You have added '${symbol}' to watchlist`)
+        this.setState({activeTickers:json.symbols})
+      }
+      })
+    }}
+
     componentDidMount () {
        this.setState({lookupTicker: this.props.lookupTicker})
        this.getQuote(this.props.lookupTicker)
+       this.getLogo(this.props.lookupTicker)
+    }
+    componentDidUpdate(prevState) {
+        if(this.state.logo !== prevState.logo){}
     }
 
     render() {
+        console.log("new activetickers", this.state.activeTickers)
         const roundTo = require('round-to')
         let secondRouteList
 
@@ -93,16 +124,23 @@ export default class Lookup extends Component {
             )
             }   
         }
-        if(this.state.prevPrice){
-        console.log("prevPrice",this.state.prevPrice.close)}
+        
+        console.log("RENDER logoURL",this.state.logo)
         return (
             <Fragment>
                 <div className="space-btw-navs">
-                    <div className="space-btw-navs-company">
-                        {companyName}
-                    </div>
-                    <div className="space-btw-navs-market">
-                        {this.state.tickerQuote?this.state.tickerQuote.primaryExchange:null}
+                    <div className="space-btw-navs-companyblock">
+                        <div>
+                            <div className="space-btw-navs-company">
+                                {companyName}
+                            </div>
+                            <div className="space-btw-navs-market">
+                                {this.state.tickerQuote?this.state.tickerQuote.primaryExchange:null}
+                            </div>
+                        </div>
+                        <div className="space-btw-navs-logo">
+                        {<img src={this.state.logo} style={{maxWidth:'100px', maxHeight:'30px'}}/>}
+                        </div>
                     </div>
                     <div className="space-btw-navs-container">
                         <div className="space-btw-navs-price">
@@ -120,8 +158,14 @@ export default class Lookup extends Component {
                         <SelectItemLookup pickHandle = {this.pickHandle}/>
                     </div>
                         <div className="filler">
+                            {this.state.lookupTicker && (!this.state.activeTickers.includes(this.state.lookupTicker) && !this.props.activeTickers.includes(this.state.lookupTicker))?
+                                <div className="filler-button-div">
+                                <button className="filler-button" onClick={(e)=>{this.addSymbol(this.state.lookupTicker)}} >
+                                +
+                                </button>
+                                </div>:<div></div>
+                            }
                         </div>
-                    
                     <div className="subtag">
                         <NavLink
                             exact to={linkToSummary}

@@ -64,7 +64,8 @@ class AreaChartSmall extends Component {
   
   getChartData = (ticker) => {
     if(ticker){
-    const promise = fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/chart/5d?token=${process.env.REACT_APP_API_PUBLISH}`)
+    let today = new Date().toISOString().substring(0, 10).replace(/-/g,"")
+    const promise = fetch(`https://cloud.iexapis.com//stable/stock/${ticker}/chart/date/${today}?chartByDay=true&token=${process.env.REACT_APP_API_PUBLISH}`)
     promise.then(blob=>blob.json()).then(json=>{
       this.setChartData(json)
     })

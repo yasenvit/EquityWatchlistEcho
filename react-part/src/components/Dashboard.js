@@ -20,6 +20,7 @@ const linkStyleActive = {
 class Dashboard extends Component {
   state = {
     lookupTicker: null,
+    activeTickers:null,
     isActive: ""
   }
   componentWillUnmount =() => {
@@ -33,20 +34,25 @@ class Dashboard extends Component {
       lookupTicker: ticker,
     })
   }
+  grabActiveTickers = (tickers) => {
+    this.setState({
+      activeTickers: tickers
+    })
+  }
 
   render() {  
-   
+  // console.log("dashboard=>",this.state.activeTickers)
   let appLogout= [<Logout clicked={this.props.clicked}/>]
   let firstRouteList = []
 
   firstRouteList = [
     <Route exact path="/dashboard"  render={(props)=> <Redirect to="/dashboard/watchlist"/>}/>,      
     <Route exact path="/dashboard/watchlist"  render={(props)=>
-      <Watchlist setChartsTicker={this.setChartsTicker} lookupTicker={this.state.lookupTicker} {...props} />}/>,
+      <Watchlist setChartsTicker={this.setChartsTicker} lookupTicker={this.state.lookupTicker} grabActiveTickers={this.grabActiveTickers} {...props} />}/>,
     <Route path="/dashboard/screener"  render={(props)=>
       <Screener setChartsTicker={this.setChartsTicker} lookupTicker={this.state.lookupTicker} {...props} />}/>,
     <Route path="/dashboard/lookup"  render={(props)=>
-      <Lookup lookupTicker={this.state.lookupTicker} {...props} />}/>,
+      <Lookup activeTickers={this.state.activeTickers} lookupTicker={this.state.lookupTicker} {...props} />}/>,
   ]
 
   return (

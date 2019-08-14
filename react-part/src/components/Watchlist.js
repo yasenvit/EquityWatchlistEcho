@@ -22,6 +22,7 @@ export default class Watchlist extends Component {
         this.setState({
           activeTickers: json.symbols
         })
+        this.props.grabActiveTickers(json.symbols)  /*???*/
       })
     }
 
@@ -46,9 +47,11 @@ export default class Watchlist extends Component {
         alert(json.error)
       } else {
         alert(`You have added '${symbol}' to watchlist`)
+        this.setState({activeTickers: json.symbols})
+        this.getQuotes(this.state.activeTickers)
+        this.props.grabActiveTickers(json.symbols)   /*?????*/
       }
-      this.setState({activeTickers: json.symbols})
-      this.getQuotes(this.state.activeTickers)
+
        })
     }}
 
@@ -58,6 +61,7 @@ export default class Watchlist extends Component {
       const promise = apiCall(endpoint,'get')
       promise.then(blob => blob.json()).then(json => {
       this.setState({activeTickers: json.symbols})
+      this.props.grabActiveTickers(json.symbols)
       if(json.symbols && json.symbols.length>0) {
       this.getQuotes(this.state.activeTickers)
       } else {

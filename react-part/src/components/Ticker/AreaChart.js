@@ -101,7 +101,6 @@ class AreaChart extends Component {
     this.setState({isActive: false})
   }
   getChartData = (ticker, days) => {
-    console.log("getChartData function ticker++++>>", ticker)
     if(ticker !== undefined && ticker !== null) {
     const endpoint = `/api/chart/${ticker}/${days}`
     const promise = apiCall(endpoint,'get')
@@ -159,6 +158,7 @@ return (
         <div id="chart">
           <div className="toolbar">
           <DateRange pickRangeHandler = {this.pickRangeHandler} isActive={this.state.isActive}/>
+            <button onClick={(e)=>(this.updateData('5'), this.unmountRangeHandler(e))} id="5d" className={(this.state.selection==='5' ? 'active' : '')}>5d</button>
             <button onClick={(e)=>(this.updateData('30'), this.unmountRangeHandler(e))} id="1m" className={(this.state.selection==='30' ? 'active' : '')}>1M</button>
             <button onClick={(e)=>(this.updateData('90'), this.unmountRangeHandler(e))} id="3m" className={ (this.state.selection==='90' ? 'active' : '')}>3M</button>
             <button onClick={(e)=>(this.updateData('180'), this.unmountRangeHandler(e))} id="6m" className={ (this.state.selection==='180' ? 'active' : '')}>6M</button>

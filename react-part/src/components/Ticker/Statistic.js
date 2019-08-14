@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import '../../styles/style.css';
 import apiCall from '../../util/apiCall';
 
+
 export default class Statistic extends Component {
     state = {
         tickerToLook: null,
@@ -29,6 +30,7 @@ export default class Statistic extends Component {
         } 
     }
     render() {
+        const roundTo = require('round-to')
     const {
         companyName,marketcap,peRatio,dividendYield,employees,beta,avg30Volume,day30ChangePercent,
         ttmEPS,ttmDividendRate,week52change,year1ChangePercent,week52low,week52high
@@ -46,7 +48,7 @@ export default class Statistic extends Component {
                                 Company name
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {companyName}
+                                {companyName?companyName:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -54,7 +56,7 @@ export default class Statistic extends Component {
                                 Employees
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {employees}
+                                {employees?employees:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -62,7 +64,7 @@ export default class Statistic extends Component {
                                 MarketCap
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {marketcap}
+                                {marketcap?<div className="digits">{roundTo(marketcap/1e9,4)}<div style={{color:"green", marginLeft:"3px"}}>B</div></div>:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -70,7 +72,7 @@ export default class Statistic extends Component {
                                 PeRatio
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {peRatio}
+                                {peRatio?peRatio:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -78,7 +80,7 @@ export default class Statistic extends Component {
                                 Average Volume (30days)
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {avg30Volume}
+                                {avg30Volume?avg30Volume:"-"}
                             </div>
                         </div>
                     </div>
@@ -88,7 +90,7 @@ export default class Statistic extends Component {
                                 Change Percent (30 days)
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {day30ChangePercent}
+                                {day30ChangePercent?day30ChangePercent:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -96,7 +98,7 @@ export default class Statistic extends Component {
                                 52 weeks change
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {week52change}
+                                {week52change?week52change:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -104,7 +106,7 @@ export default class Statistic extends Component {
                                 52 weeks low
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {week52low}
+                                {week52low?week52low:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -112,7 +114,7 @@ export default class Statistic extends Component {
                                 52 weeks high
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {week52high}
+                                {week52high?week52high:""}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -120,7 +122,7 @@ export default class Statistic extends Component {
                                 Year Change Percent
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {year1ChangePercent}
+                                {year1ChangePercent?yearAgoChangePercent:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -128,7 +130,7 @@ export default class Statistic extends Component {
                                 ttmDividendRate
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {ttmDividendRate}
+                                {ttmDividendRate?ttmDividendRate:"-"}
                             </div>
                         </div>
                     </div>                    
@@ -140,7 +142,7 @@ export default class Statistic extends Component {
                                 Beta
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {beta}
+                                {beta?roundTo(beta,4):"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -148,7 +150,7 @@ export default class Statistic extends Component {
                             Dividend Yield
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {dividendYield}
+                                {dividendYield?dividendYield:""}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -156,7 +158,7 @@ export default class Statistic extends Component {
                                 ttmEPS
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {ttmEPS}
+                                {ttmEPS?ttmEPS:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -164,7 +166,7 @@ export default class Statistic extends Component {
                                 ttmDividendRate
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {ttmDividendRate}
+                                {ttmDividendRate?ttmDividendRate:""}
                             </div>
                         </div>
                     </div>
@@ -174,7 +176,7 @@ export default class Statistic extends Component {
                                 Actual EPS
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {actualEPS}
+                                {actualEPS?actualEPS:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -182,7 +184,7 @@ export default class Statistic extends Component {
                                 consensus EPS
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {consensusEPS}
+                                {consensusEPS?consensusEPS:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -190,7 +192,7 @@ export default class Statistic extends Component {
                                 Fiscal Period
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {fiscalPeriod}
+                                {fiscalPeriod?fiscalPeriod:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -198,7 +200,7 @@ export default class Statistic extends Component {
                                 Year Ago
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {yearAgo}
+                                {yearAgo?yearAgo:"-"}
                             </div>
                         </div>
                         <div className="stat-col-cont-element">
@@ -206,7 +208,7 @@ export default class Statistic extends Component {
                                 Year Ago Change Percent
                             </div>
                             <div className="stat-col-cont-elem-value">
-                                {yearAgoChangePercent}
+                                {yearAgoChangePercent?yearAgoChangePercent:"-"}
                             </div>
                         </div>
                     </div>                    

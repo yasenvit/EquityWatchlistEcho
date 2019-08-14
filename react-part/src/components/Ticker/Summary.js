@@ -28,10 +28,11 @@ export default class Summary extends Component {
     }
 
     render() {
+        
         const roundTo = require('round-to')
-        let week52Range = this.state.tickerQuote?<div>{this.state.tickerQuote.week52Low} - {this.state.tickerQuote.week52Low}</div>:""
-        let dayRange = this.state.tickerQuote?<div>{this.state.tickerQuote.low?roundTo(this.state.tickerQuote.low,2):""} - {this.state.tickerQuote.high?roundTo(this.state.tickerQuote.high,2):""}</div>:""
-        let openClose = this.state.tickerQuote?<div>{this.state.tickerQuote.open} - {this.state.tickerQuote.close}</div>:""
+        let week52Range = this.state.tickerQuote?<div>{this.state.tickerQuote.week52Low} - {this.state.tickerQuote.week52Low}</div>:"-"
+        let dayRange = this.state.tickerQuote?<div>{this.state.tickerQuote.low?roundTo(this.state.tickerQuote.low,2):""} - {this.state.tickerQuote.high?roundTo(this.state.tickerQuote.high,2):""}</div>:"-"
+        let openClose = this.state.tickerQuote?<div>{this.state.tickerQuote.open} - {this.state.tickerQuote.close}</div>:"-"
 
         return (
             <Fragment>
@@ -41,16 +42,14 @@ export default class Summary extends Component {
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Previous close</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.previousClose:""
+                                    this.state.tickerQuote?this.state.tickerQuote.previousClose?this.state.tickerQuote.previousClose:"-":"-"
                                     }
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Open - Close</div>
-                                <div className="chart-info-column-row-value">{
-                                    // this.state.tickerQuote?this.state.tickerQuote.open:""
-                                    openClose
-                                    }
+                                <div className="chart-info-column-row-value">
+                                    {openClose}
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
@@ -68,14 +67,17 @@ export default class Summary extends Component {
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Volume</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.latestVolume:""
+                                    this.state.tickerQuote?this.state.tickerQuote.latestVolume?this.state.tickerQuote.latestVolume:"-":"-"
                                     }
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Avg. Volume</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?<div>{this.state.tickerQuote.avgTotalVolume?roundTo(this.state.tickerQuote.avgTotalVolume/1e6,4):""}M</div>:""}
+                                    this.state.tickerQuote?
+                                    <div className="digits">{this.state.tickerQuote.avgTotalVolume?roundTo(this.state.tickerQuote.avgTotalVolume/1e6,4):""
+                                    }<div style={{color:"green", marginLeft:"3px"}}>M</div></div>
+                                    :"-"}
                                 </div>
                             </div>
                         </div>
@@ -83,40 +85,47 @@ export default class Summary extends Component {
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Previous Volume</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.previousVolume:""
+                                    this.state.tickerQuote?this.state.tickerQuote.previousVolume?this.state.tickerQuote.previousVolume:"-":"-"
                                     }
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Market Cap</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?<div>{this.state.tickerQuote.marketCap?roundTo(this.state.tickerQuote.marketCap/1e9,4):""}B</div>:""
+                                    this.state.tickerQuote?
+                                    <div className="digits">{this.state.tickerQuote.marketCap?roundTo(this.state.tickerQuote.marketCap/1e9,4):""
+                                    }<div style={{color:"green", marginLeft:"3px"}}>B</div></div>
+                                    :"-"
                                     }
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">PE Ratio (TTM)</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.peRatio:""}
+                                    this.state.tickerQuote?this.state.tickerQuote.peRatio?this.state.tickerQuote.peRatio:"-":"-"}
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Change</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.change:""}
+                                    this.state.tickerQuote?this.state.tickerQuote.change?this.state.tickerQuote.change:"-":"-"}
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Change Percent</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.changePercent?<div>{roundTo(this.state.tickerQuote.changePercent,4)}%</div>:"":""
+                                    this.state.tickerQuote?this.state.tickerQuote.changePercent?<div>{
+                                        roundTo(this.state.tickerQuote.changePercent,4)
+                                    }%</div>:"-":"-"
                                     }
                                 </div>
                             </div>
                             <div className="chart-info-column-row">
                                 <div className="chart-info-column-row-key">Year to Date change</div>
                                 <div className="chart-info-column-row-value">{
-                                    this.state.tickerQuote?this.state.tickerQuote.ytdChange?<div>{roundTo(this.state.tickerQuote.ytdChange,4)}%</div>:"":""
+                                    this.state.tickerQuote?this.state.tickerQuote.ytdChange?<div>{
+                                        roundTo(this.state.tickerQuote.ytdChange,4)
+                                    }%</div>:"-":"-"
                                     }
                                 </div>
                             </div>

@@ -77,7 +77,7 @@ def get_online_data(symbol, fromdate, todate, token=TOKEN):
     todate_obj = datetime.strptime(todate,'%Y%m%d')
     onlinedata = []
     while fromdate_obj <= todate_obj:
-        response = requests.get(ENDPOINT2 + "/stock/{}/chart/date/{}?chartByDay=true&".format(symbol, fromdate_obj) + token)
+        response = requests.get(ENDPOINT2 + "/stock/{}/chart/date/{}?".format(symbol, fromdate_obj) + token)
         if response.status_code == 200:
             if fromdate_obj.weekday() == 5 or fromdate_obj.weekday() == 6:
                 pass
@@ -86,7 +86,7 @@ def get_online_data(symbol, fromdate, todate, token=TOKEN):
             fromdate_obj = fromdate_obj + timedelta(days=1)
         else:
             raise requests.ConnectionError('http status: ' + format(response.status_code))
-    print("online data ----->>>>>", result[0-5])
+
     return onlinedata
 
 def isfloat(value):
@@ -118,11 +118,7 @@ def get_batchonline_data(symbol, days, token=TOKEN):
             period = "1d"	
     else:
         return []
-    
-    if period == "1d":
-        response = requests.get(ENDPOINT2 + "/stock/{}/chart/date/{}?chartByDay=true&".format(symbol, datetime.strftime(date.today(),'%Y%m%d')) + token)    
-    else:
-        response = requests.get(ENDPOINT2 + "/stock/{}/chart/{}?".format(symbol, period) + token)
+    response = requests.get(ENDPOINT2 + "/stock/{}/chart/{}?".format(symbol, period) + token)
     if response.status_code == 200:
         result = response.json()
     else:
@@ -135,14 +131,14 @@ def get_eps(symbol, token=TOKEN):
     if response.status_code == 200:
         return response.json()
     else:
-        raise requests.ConnectionError('http status: ' + format(response.status_code))
+        return None
 
 def get_stats(symbol, token=TOKEN):
     response = requests.get(ENDPOINT2 + "/stock/{}/stats?".format(symbol) + token)
     if response.status_code == 200:
         return response.json()
     else:
-        raise requests.ConnectionError('http status: ' + format(response.status_code))
+        return None
 
 def get_online_data(symbol, fromdate, todate, token=TOKEN):
     fromdate_obj = datetime.strptime(fromdate,'%Y%m%d')
@@ -150,7 +146,7 @@ def get_online_data(symbol, fromdate, todate, token=TOKEN):
     onlinedata = []
     while fromdate_obj <= todate_obj:
         response = requests.get(ENDPOINT2 + "/stock/{}/chart/date/{}?chartByDay=true&".format(symbol, datetime.strftime(fromdate_obj,'%Y%m%d')) + token)
-        print("\n\nUTIL get_online_data response =>",response.json(),"\n\n")
+
         if response.status_code == 200:
             if fromdate_obj.weekday() == 5 or fromdate_obj.weekday() == 6:
                 pass

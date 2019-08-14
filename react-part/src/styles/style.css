@@ -153,18 +153,41 @@ button:focus {
   font-weight: 650;
 }
 
-.filler {
-  flex:1;
-  border-bottom: 3px solid #dbd7d7;
+.digits {
   display: flex;
+  flex-direction: row;
 }
-
 .entire {
   width: 100%;
   overflow-y: auto;
   max-height: 100vh;
   box-sizing: border-box;
   }
+
+
+.filler {
+  flex:1;
+  border-bottom: 3px solid #dbd7d7;
+  display: flex;
+}
+
+.filler-button-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+}
+.filler-button {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  padding: 0px;
+  background-color: rgb(160, 236, 250);
+  color: rgb(58, 85, 143);
+  font-size: 1.2rem;
+  /* border: 1px solid rgb(58, 85, 143); */
+}
 
 .footer {
   display: flex;
@@ -403,7 +426,14 @@ button:focus {
   height: 15vh;
   width: 100%;
 }
-
+.space-btw-navs-companyblock {
+  display: flex;
+  margin:0px;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  
+}
 .space-btw-navs-company {
   display: flex;
   margin:0px;
@@ -414,6 +444,16 @@ button:focus {
   justify-content: flex-start;
   font-size: 1.3rem;
   font-weight: 500;
+}
+
+.space-btw-navs-logo {
+  max-width: 100px;
+  height: 40px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .space-btw-navs-market {
